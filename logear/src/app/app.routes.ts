@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 const routeConfig: Routes = [
-  { path: "", component: AppComponent, pathMatch: "full" },
+  { path: "", redirectTo:"/login", pathMatch: "full" },
   { path: "login", component: LoginComponent, pathMatch: "full" },
   { path: "register", component: RegisterComponent, pathMatch: "full" },
   {path: "home", component: HomeComponent, pathMatch: "full"},

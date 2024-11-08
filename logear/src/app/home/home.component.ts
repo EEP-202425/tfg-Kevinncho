@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit{
     this.getUserLogged();
   }
   getUserLogged(){
-    this.userService.getUser().subscribe((user)=>{
+    this.userService.getUsers().subscribe((user)=>{
       console.log(user);
     });
   }
