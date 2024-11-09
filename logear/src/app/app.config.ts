@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -15,7 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideRouter(routeConfig),
     provideClientHydration(),
-    CookieService,
 
   ],
 };

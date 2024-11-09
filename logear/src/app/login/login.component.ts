@@ -15,26 +15,18 @@ export class LoginComponent {
   email: string='';
   password: string='';
 
-  constructor(public userService: UsersService, public router: Router) {}
+  constructor(private userService: UsersService, private router: Router) {}
 
 
   login() {
     const user = { email: this.email, password: this.password };
-    this.userService.login(user).subscribe(
-      data => {
-        if (data) {
-          this.userService.setToken(data.token);
-          this.router.navigateByUrl("/home"); // Redirige a la página de inicio
-        } else {
-          alert("Credenciales inválidas");
-        }
-      },
-      error => {
-        console.log(error);
-        alert("Ocurrió un error al iniciar sesión");
-      }
+    this.userService.login(user).subscribe({
+      next: ()=> this.router.navigate(['/home']),
+      error: (err)=> console.error('login Failed', err)
+    }
+
     );
   }
 }
-  
+
 

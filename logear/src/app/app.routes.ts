@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import path from 'path';
 import { Component } from '@angular/core';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
