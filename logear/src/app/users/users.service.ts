@@ -40,20 +40,21 @@ export class UsersService {
 
 
   login(user: { email: string; password: string }): Observable<any> {
-    return this.http.post<any>(this.usersUrl, {email: user.email,password: user.password}).pipe(
-      tap(response => {
-        if (response?.token) {
-          console.log("Token recibido:", response.token);
-          this.setToken(response.token);
-        } else {
-          console.warn("No se recibió token en la respuesta.");
-        }
+    return this.http.get<any[]>(this.usersUrl).pipe(
+      map(users =>{
+        const foundUser= users.find(u => u.email === user.email && u.password === user.password);
+      if(foundUser){
+        return true;
+      }else{
+        throw new Error('Usuario o contraseña incorrectos')
+      }
       }),
-      catchError(error => {
-        console.error('Error en el proceso de login:', error);
-        return of(null);
+      catchError( error=> {
+        console.error(error.message);
+        return of(false);
       })
     );
+
   }
   setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token); // Almacena el token en localStorage

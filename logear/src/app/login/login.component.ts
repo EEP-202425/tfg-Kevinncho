@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   email: string='';
   password: string='';
+  errorMessage: string='';
 
   constructor(private userService: UsersService, private router: Router) {}
 
@@ -21,12 +22,16 @@ export class LoginComponent {
   login() {
     const user = { email: this.email, password: this.password };
     this.userService.login(user).subscribe({
-      next: ()=> this.router.navigate(['/home']),
-      error: (err)=> console.error('login Failed', err)
-    }
-
-    );
+      next: (isAuthenticated) => {
+        if (isAuthenticated) {
+          this.router.navigate(['/home']); // Navega a la página de inicio
+        } else {
+          this.errorMessage = 'Usuario o contraseña incorrectos'; // Muestra mensaje de error
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error.message;
+      }
+    });
   }
 }
-
-
