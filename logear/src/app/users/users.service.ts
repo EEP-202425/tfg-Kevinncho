@@ -1,14 +1,18 @@
 
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { map, Observable, catchError, of } from "rxjs";
+import { map, Observable, catchError, of, throwError } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
 import { Router } from "@angular/router";
 import { tap } from "rxjs";
+import { error } from "node:console";
 
 interface User{
   email: string;
   password: string;
+  confirmPassword: string;
+
+  token?: string;
 }
 @Injectable({
   providedIn: "root",
@@ -18,20 +22,39 @@ export class UsersService {
   private tokenKey = 'authToken';
   constructor(private http: HttpClient, private router: Router ) {}
 
+  registrer(user: { email: string; password: string, confirmPassword: string }): Observable<any> {
+    if(!user.email || !user.password || !user.confirmPassword){
+      return throwError(()=> new Error('Todos los campos son obligatorios.'));
+    }
+    if(user.password !== user.confirmPassword){
+      return throwError(()=> new Error('Las contraseñas no coinciden'));
+    }
+    return this.http.post<any>(this.usersUrl, {email: user.email,password: user.password    }).pipe(
+      catchError(error => {
+        const errorMessage = 'Error al intentar registrar el usuario.';
+        console.error(errorMessage, error);
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
+
+
   login(user: { email: string; password: string }): Observable<any> {
     return this.http.post<any>(this.usersUrl, {email: user.email,password: user.password}).pipe(
       tap(response => {
-        console.log("Respuesta del servidor:", response)
-        if(response.token && response){
-          console.log("Token recibido",response.token);
+        if (response?.token) {
+          console.log("Token recibido:", response.token);
           this.setToken(response.token);
-        }else{
-          console.warn("No se recibio token en la respuesta.")
+        } else {
+          console.warn("No se recibió token en la respuesta.");
         }
+      }),
+      catchError(error => {
+        console.error('Error en el proceso de login:', error);
+        return of(null);
       })
-    )
+    );
   }
-
   setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token); // Almacena el token en localStorage
     console.log("Guardando el token en localStorage", token)

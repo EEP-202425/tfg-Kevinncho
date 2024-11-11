@@ -3,42 +3,29 @@
     {
       "email": "usuario@ejemplo.com",
       "password": "123456",
-      "id": "3462"
+      "id": "3462",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     },
     {
-      "email": "usuario2@ejemplo.com",
-      "password": "abcdef",
-      "id": "25c8"
-    },
-    {
-      "id": "e4b5",
-      "email": "user1@example.com",
-      "password": "123"
-    },
-    {
-      "id": "f288",
-      "email": "test@example.com",
-      "password": "122"
-    },
-    {
-      "id": "1ebc",
-      "email": "test@example.com",
-      "password": "12321"
-    },
-    {
-      "id": "631f",
-      "email": "usuario@ejemplo.com",
-      "password": "123456"
-    },
-    {
-      "id": "0440",
+      "id": "e060",
       "email": "km5146811@gmail.com",
-      "password": "133e"
+      "password": "12345",
+      "token": "def456"
     },
     {
-      "id": "1888",
+      "id": "a2f2",
       "email": "ghg@@1sxsx.",
-      "password": "12234"
+      "password": "121dd"
+    },
+    {
+      "id": "e8a5",
+      "email": "eve.holt@reqres.in",
+      "password": "rdce2"
+    },
+    {
+      "id": "15c2",
+      "email": "mateo1589@outlook.es",
+      "password": "kevin2121"
     }
   ]
 }
