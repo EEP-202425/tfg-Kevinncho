@@ -9,8 +9,8 @@ import { error } from "node:console";
 
 interface User{
   email: string;
-  password: string;
-  confirmPassword: string;
+  contrasena: string;
+  confirmcontrasena: string;
 
   token?: string;
 }
@@ -22,28 +22,28 @@ export class UsersService {
   private tokenKey = 'authToken';
   constructor(private http: HttpClient, private router: Router ) {}
 
-  registrer(user: { email: string; password: string, confirmPassword: string }): Observable<any> {
-    if(!user.email || !user.password || !user.confirmPassword){
+  registrer(usuarios: { email: string; contrasena: string, confirmcontrasena: string }): Observable<any> {
+    if(!usuarios.email || !usuarios.contrasena || !usuarios.confirmcontrasena){
       return throwError(()=> new Error('Todos los campos son obligatorios.'));
     }
-    if(user.password !== user.confirmPassword){
+    if(usuarios.contrasena !== usuarios.confirmcontrasena){
       return throwError(()=> new Error('Las contraseñas no coinciden'));
     }
-    return this.http.post<any>(this.usersUrl, {email: user.email,password: user.password    }).pipe(
+    return this.http.post<any>(this.usersUrl, {email: usuarios.email,contrasena: usuarios.contrasena    }).pipe(
       catchError(error => {
-        const errorMessage = 'Error al intentar registrar el usuario.';
-        console.error(errorMessage, error);
-        return throwError(() => new Error(errorMessage));
+        const mensajeErr = 'Error al intentar registrar el usuario.';
+        console.error(mensajeErr, error);
+        return throwError(() => new Error(mensajeErr));
       })
     );
   }
 
 
-  login(user: { email: string; password: string }): Observable<any> {
+  login(usuario: { email: string; contrasena: string }): Observable<any> {
     return this.http.get<any[]>(this.usersUrl).pipe(
-      map(users =>{
-        const foundUser= users.find(u => u.email === user.email && u.password === user.password);
-      if(foundUser){
+      map(usuarios =>{
+        const encontrarUsuarios= usuarios.find(u => u.email === usuario.email && u.contrasena === usuario.contrasena);
+      if(encontrarUsuarios){
         return true;
       }else{
         throw new Error('Usuario o contraseña incorrectos')

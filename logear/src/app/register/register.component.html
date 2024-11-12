@@ -1,28 +1,36 @@
 <div class="register">
-  <form class="custom-form" (ngSubmit)="register()">
-    <h1>Register</h1>
+  <form [formGroup]="registreForm" class="custom-form" (ngSubmit)="registrar()">
+    <h1>Registro</h1>
     <input
       type="email"
-      [(ngModel)]="email"
+      formControlName="email"
       name="email"
       placeholder="Email"
       required="required"
     />
+  <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
+      <div *ngIf="emailControl?.errors?.['required']">
+        El Email es requerido.
+      </div>
+      <div *ngIf="emailControl?.errors?.['email']">
+      El email debe tener un formato válido.
+      </div>
+    </div>
     <input
       type="password"
-      [(ngModel)]="password"
+      formControlName="contrasena"
       name="password"
-      placeholder="Password"
+      placeholder="Contraseña"
       required="required"
     />
     <input
       type="password"
-      [(ngModel)]="confirmPassword"
+      formControlName="confirmcontrasena"
       name="password"
-      placeholder="Repeat the password"
+      placeholder="Confirmar contraseña"
       required="required"
     />
-    <button type="submit" >Register</button>
+    <button type="submit" >Registar</button>
     <a [routerLink]="['/login']">Login</a>
   </form>
 </div>

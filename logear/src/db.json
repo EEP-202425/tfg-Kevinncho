@@ -1,31 +1,19 @@
 {
   "users": [
     {
-      "email": "usuario@ejemplo.com",
-      "password": "123456",
-      "id": "3462",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    },
-    {
-      "id": "e060",
-      "email": "km5146811@gmail.com",
-      "password": "12345",
-      "token": "def456"
-    },
-    {
-      "id": "a2f2",
-      "email": "ghg@@1sxsx.",
-      "password": "121dd"
-    },
-    {
       "id": "e8a5",
       "email": "eve.holt@reqres.in",
-      "password": "rdce2"
+      "contrasena": "rdce2"
     },
     {
       "id": "15c2",
       "email": "mateo1589@outlook.es",
-      "password": "kevin2121"
+      "contrasena": "kevin2121"
+    },
+    {
+      "id": "1483",
+      "email": "km5146811@gmail.com",
+      "contrasena": "contraseña21"
     }
   ]
 }

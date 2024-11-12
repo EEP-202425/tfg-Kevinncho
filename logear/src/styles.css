@@ -51,3 +51,10 @@ h1 {
   box-shadow: 3px 3px 8px #b1b1b1, -3px -3px 8px #ffffff;
   cursor: pointer;
 }
+
+.ng-valid:not(form).ng-touched {
+  border-left: 5px solid #42A948;
+}
+.ng-invalid:not(form).ng-touched {
+  border-left: 5px solid #a94442;
+}

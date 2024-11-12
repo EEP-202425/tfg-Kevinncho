@@ -1,24 +1,24 @@
 <!-- login.component.html -->
 
 <div class="login">
-  <form class="custom-form" (ngSubmit)="login()">    <h1>Login</h1>
+  <form [formGroup]="loginForm" class="custom-form" (ngSubmit)="login()">    <h1>Iniciar sesion</h1>
     <input
       type="email"
-      [(ngModel)]="email"
+      formControlName="email"
       name="email"
       placeholder="Email"
       required="required"
     />
     <input
       type="password"
-      [(ngModel)]="password"
+      formControlName="contrasena"
       name="password"
-      placeholder="Password"
+      placeholder="Contraseña"
       required="required"
     />
-    <button type="submit">Log in</button>
+    <button type="submit">Iniciar sesion</button>
     <a [routerLink]="['/register']">Registrar</a>
   </form>
-  <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+  <p *ngIf="mensajeErr" style="color: red;">{{ mensajeErr }}</p>
 
 </div>
