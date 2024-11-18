@@ -23,6 +23,14 @@
       placeholder="Contraseña"
       required="required"
     />
+    <div *ngIf="getcontrasena?.invalid && (getcontrasena?.dirty || getcontrasena?.touched)">
+      <div *ngIf="getcontrasena?.errors?.['required']">
+        La contraseña es requerida.
+      </div>
+      <div *ngIf="getcontrasena?.errors?.['contrasena']">
+      El contraseña debe tener un formato válido.
+      </div>
+    </div>
     <input
       type="password"
       formControlName="confirmcontrasena"
@@ -30,6 +38,14 @@
       placeholder="Confirmar contraseña"
       required="required"
     />
+    <div *ngIf="getconfirmcontrasena?.invalid && (getconfirmcontrasena?.dirty || getconfirmcontrasena?.touched)">
+      <div *ngIf="getconfirmcontrasena?.errors?.['required']">
+        Es necesario confirmar la contraseña.
+      </div>
+      <div *ngIf="getconfirmcontrasena?.errors?.['confirmcontrasena']">
+      La contraseña debe tener un formato válido.
+      </div>
+    </div>
     <button type="submit" >Registar</button>
     <a [routerLink]="['/login']">Login</a>
   </form>

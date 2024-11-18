@@ -38,8 +38,10 @@ export class UsersService {
     );
   }
 
-
   login(usuario: { email: string; contrasena: string }): Observable<any> {
+    if(!usuario.email || !usuario.contrasena){
+      return throwError(()=> new Error('Ingrese su correo y contraseña, por favor.'));
+    }
     return this.http.get<any[]>(this.usersUrl).pipe(
       map(usuarios =>{
         const encontrarUsuarios= usuarios.find(u => u.email === usuario.email && u.contrasena === usuario.contrasena);
@@ -51,7 +53,7 @@ export class UsersService {
       }),
       catchError( error=> {
         console.error(error.message);
-        return of(false);
+        return throwError(() => new Error(error.message));
       })
     );
 

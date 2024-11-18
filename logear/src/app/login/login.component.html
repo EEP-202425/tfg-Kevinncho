@@ -9,6 +9,11 @@
       placeholder="Email"
       required="required"
     />
+    <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
+      <div *ngIf="emailControl?.errors?.['email']">
+        El email debe tener un formato válido.
+        </div>
+    </div>
     <input
       type="password"
       formControlName="contrasena"
@@ -19,6 +24,4 @@
     <button type="submit">Iniciar sesion</button>
     <a [routerLink]="['/register']">Registrar</a>
   </form>
-  <p *ngIf="mensajeErr" style="color: red;">{{ mensajeErr }}</p>
-
 </div>
