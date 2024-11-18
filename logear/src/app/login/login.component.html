@@ -1,5 +1,5 @@
 <!-- login.component.html -->
-
+<!--
 <div class="login">
   <form [formGroup]="loginForm" class="custom-form" (ngSubmit)="login()">    <h1>Iniciar sesion</h1>
     <input
@@ -24,4 +24,39 @@
     <button type="submit">Iniciar sesion</button>
     <a [routerLink]="['/register']">Registrar</a>
   </form>
+</div>-->
+<div class="container">
+  <div class="left-panel">
+    <div class="logo">AMU</div>
+    <div class="back-link"><a href="#">Back to website</a></div>
+    <div class="image">
+      <img src="icons/imgepira.jpg" alt="Desert dunes">
+      <p>Capturing Moments, Creating Memories</p>
+    </div>
+  </div>
+  <div class="right-panel">
+    <h1>Create an account</h1>
+    <p>Already have an account? <a href="#">Log in</a></p>
+    <form>
+      <div class="form-group">
+        <input type="text" placeholder="First name" required>
+        <input type="text" placeholder="Last name" required>
+      </div>
+      <input type="email" placeholder="Email" required>
+      <div class="password-group">
+        <input type="password" placeholder="Enter your password" required>
+        <button type="button">👁</button>
+      </div>
+      <label>
+        <input type="checkbox" required>
+        I agree to the <a href="#">Terms & Conditions</a>
+      </label>
+      <button type="submit" class="create-btn">Create account</button>
+    </form>
+    <div class="divider">Or register with</div>
+    <div class="social-buttons">
+      <button class="google-btn">Google</button>
+      <button class="apple-btn">Apple</button>
+    </div>
+  </div>
 </div>
