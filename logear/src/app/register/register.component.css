@@ -1,0 +1,7 @@
+.enlace_registrar{
+text-decoration: none;
+color:#aaa;
+}
+.enlace_registrar:hover{
+  color: #fff;
+}

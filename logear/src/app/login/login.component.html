@@ -1,59 +1,42 @@
-<!-- login.component.html -->
-<!--
-<div class="login">
-  <form [formGroup]="loginForm" class="custom-form" (ngSubmit)="login()">    <h1>Iniciar sesion</h1>
-    <input
-      type="email"
-      formControlName="email"
-      name="email"
-      placeholder="Email"
-      required="required"
-    />
-    <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
-      <div *ngIf="emailControl?.errors?.['email']">
-        El email debe tener un formato válido.
-        </div>
-    </div>
-    <input
-      type="password"
-      formControlName="contrasena"
-      name="password"
-      placeholder="Contraseña"
-      required="required"
-    />
-    <button type="submit">Iniciar sesion</button>
-    <a [routerLink]="['/register']">Registrar</a>
-  </form>
-</div>-->
+
 <div class="container">
   <div class="left-panel">
-    <div class="logo">AMU</div>
-    <div class="back-link"><a href="#">Back to website</a></div>
+    <div class="logo">HÁBITO DE ORO</div>
+    <div class="back-link"><a href="#">Organiza tus gastos, construye tus sueños</a></div>
     <div class="image">
-      <img src="icons/imgepira.jpg" alt="Desert dunes">
-      <p>Capturing Moments, Creating Memories</p>
+      <img src="icons/img5.jpg" alt="Desert dunes">
     </div>
   </div>
   <div class="right-panel">
-    <h1>Create an account</h1>
-    <p>Already have an account? <a href="#">Log in</a></p>
-    <form>
-      <div class="form-group">
-        <input type="text" placeholder="First name" required>
-        <input type="text" placeholder="Last name" required>
+    <h1>LOGEAR</h1>
+    <p>¿No tienes una cuenta? <a [routerLink]="['/register']" class="enlace_registrar">Registrate</a></p>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <input
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+        required
+      />
+      <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
+        <div *ngIf="emailControl?.errors?.['required']">
+          El email es requerido.
+        </div>
+        <div *ngIf="emailControl?.errors?.['email']">
+          El email debe tener un formato válido.
+        </div>
       </div>
-      <input type="email" placeholder="Email" required>
       <div class="password-group">
-        <input type="password" placeholder="Enter your password" required>
+        <input
+        type="password"
+        placeholder="Contraseña"
+        formControlName="contrasena"
+        required
+      />
         <button type="button">👁</button>
       </div>
-      <label>
-        <input type="checkbox" required>
-        I agree to the <a href="#">Terms & Conditions</a>
-      </label>
-      <button type="submit" class="create-btn">Create account</button>
+      <button type="submit" class="create-btn" [disabled]="loginForm.invalid">Iniciar Sesión</button>
     </form>
-    <div class="divider">Or register with</div>
+    <div class="divider">Registrate con</div>
     <div class="social-buttons">
       <button class="google-btn">Google</button>
       <button class="apple-btn">Apple</button>

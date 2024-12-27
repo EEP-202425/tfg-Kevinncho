@@ -1,0 +1,12 @@
+.enlace_registrar{
+  text-decoration: none; /* Elimina el subrayado */
+  color: #c306fe;
+}
+.enlace_registrar:hover{
+  color: #3498db;
+}
+.image {
+  width: 100%;
+  height: auto;
+
+}
