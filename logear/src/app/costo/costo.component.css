@@ -1,0 +1,21 @@
+.contenedor-fecha{
+  text-align: center;
+}
+.mes-label{
+  margin: 0px 50px;
+}
+.select-mes{
+margin: 0px 50px;
+}
+.año-select{
+margin: 0px 50px;
+}
+.año-label{
+margin: 0px 50px;
+}
+.label-dia{
+margin: 0px 50px;
+}
+.select-dia{
+  margin: 0px 50px;
+}

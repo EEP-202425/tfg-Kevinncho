@@ -24,6 +24,11 @@
       "id": "d134",
       "email": "prueba1@outlook.com",
       "contrasena": "Sin123"
+    },
+    {
+      "id": "e702",
+      "email": "prueba2@outlook.com",
+      "contrasena": "123"
     }
   ]
 }
