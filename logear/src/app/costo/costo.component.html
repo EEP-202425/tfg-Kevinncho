@@ -23,6 +23,7 @@
   <div>
     <h4>Registro de Ingreso</h4>
     <p>Fecha seleccionada: {{ selectedDay }} de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</p>
+    <div class="lista-ingresos">
     <label for="concept">Concepto de Ingreso:</label>
     <input id="concept" [(ngModel)]="incomeConcept" type="text" />
 
@@ -30,6 +31,7 @@
     <input id="amount" [(ngModel)]="incomeAmount" type="number" />
 
     <button (click)="saveIncome()">Guardar</button>
+    </div>
   </div>
 </div>
 

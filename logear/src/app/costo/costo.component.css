@@ -1,21 +1,80 @@
 .contenedor-fecha{
   text-align: center;
+  font-size: 15px;
+  border-top: 0.5px solid #42414e; /* Borde superior */
+  border-bottom: 0.5px solid #42414e; /* Borde inferior */
+  padding: 10px;
+
 }
+.contenedor-fecha label{
+  color: #dedede;
+}
+input{
+  background-color: transparent;
+  border: none;
+}
+h3 {
+  color: #dad7d7;
+}
+h4 {
+  color: #dad7d7;
+}
+p {
+  color: #dad7d7;
+}
+.lista-ingresos{
+  border-top: 0.5px solid #42414e; /* Borde superior */
+  border-bottom: 0.5px solid #42414e; /* Borde inferior */
+  padding: 15px;
+  text-align: center;
+}
+.lista-ingresos label{
+  color: #dad7d7;
+}
+
+select {
+  appearance: none; /* Elimina los estilos predeterminados */
+  background-color: #2c2b3f; /* Fondo del select */
+  border: 1px solid #2c2b3f; /* Borde inicial */
+  border-radius: 4px; /* Esquinas redondeadas */
+  padding: 8px 12px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño de fuente */
+  color: #dedede; /* Color del texto */
+  cursor: pointer; /* Cursor de mano */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Suaviza el efecto */
+  text-align: center;
+}
+
+select:hover {
+  border-color: #fbfbfb; /* Cambia el color del borde al pasar el mouse */
+
+}
+
+select:focus {
+  outline: none; /* Elimina el contorno azul predeterminado */
+  border-color: #fbfbfb; /* Cambia el color del borde al enfocar */
+  box-shadow: 0 0 8px rgba(184, 181, 183, 0.7); /* Un brillo más intenso */
+}
+option:hover {
+  background-color: #b2dfdb; /* Cambia el fondo al pasar el cursor */
+  color: #004d40; /* Cambia el color del texto al pasar el cursor */
+}
+
 .mes-label{
-  margin: 0px 50px;
+  margin: 0px 40px;
 }
 .select-mes{
-margin: 0px 50px;
+margin: 0px 10px;
 }
 .año-select{
-margin: 0px 50px;
+margin: 0px 10px;
 }
 .año-label{
-margin: 0px 50px;
+margin: 0px 40px;
 }
 .label-dia{
-margin: 0px 50px;
+margin: 0px 40px;
 }
 .select-dia{
-  margin: 0px 50px;
+  margin: 0px 10px;
 }
