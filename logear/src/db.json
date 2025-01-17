@@ -30,5 +30,13 @@
       "email": "prueba2@outlook.com",
       "contrasena": "123"
     }
+  ],
+  "ingresos": [
+    {
+      "id": "56c1",
+      "fecha": "1/1/2025",
+      "concepto": "Beca de universidad",
+      "monto": 2000
+    }
   ]
 }

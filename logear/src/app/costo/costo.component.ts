@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IngresosService } from './ingresos.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-costo',
@@ -37,7 +39,7 @@ selectedDay: number = 1;
 incomeConcept: string = '';
 incomeAmount: number = 0;
 
-constructor() {
+constructor(private ingresosService: IngresosService) {
   // Llenar los años disponibles (por ejemplo, 2020-2030)
   for (let i = 2020; i <= 2030; i++) {
     this.years.push(i);
@@ -56,12 +58,26 @@ updateDays(): void {
 
 // Guardar el ingreso (puede incluir lógica para enviar datos al backend)
 saveIncome(): void {
-  console.log('Ingreso guardado:', {
+  const income = {
     fecha: `${this.selectedDay}/${this.selectedMonth}/${this.selectedYear}`,
     concepto: this.incomeConcept,
     monto: this.incomeAmount,
-  });
+  };
   alert('Ingreso registrado con éxito.');
+
+  this.ingresosService.saveIncome(income).subscribe(
+    (response) =>{
+      console.log('Ingreso guardado exitosamente:', response);
+      alert('Ingreso registrado con éxito.');
+      // Opcional: Reiniciar los campos
+      this.incomeConcept = '';
+      this.incomeAmount = 0;
+    },
+    (error) => {
+      console.error('Error al guardar el ingreso:', error);
+      alert('Ocurrió un error al guardar el ingreso.');
+    }
+  );
 }
 
 }

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div>
   <h3>Seleccionar Fecha de Ingreso</h3>
   <div class="contenedor-fecha">
@@ -24,14 +25,15 @@
     <h4>Registro de Ingreso</h4>
     <p>Fecha seleccionada: {{ selectedDay }} de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</p>
     <div class="lista-ingresos">
-    <label for="concept">Concepto de Ingreso:</label>
+    <label class="label-concepIng" for="concept">Concepto de Ingreso:</label>
     <input id="concept" [(ngModel)]="incomeConcept" type="text" />
 
-    <label for="amount">Monto:</label>
+    <label class="label-cantidad" for="amount">Monto:</label>
     <input id="amount" [(ngModel)]="incomeAmount" type="number" />
 
-    <button (click)="saveIncome()">Guardar</button>
+    <button class="icono-guardar" (click)="saveIncome()"><i class="fa-regular fa-floppy-disk"></i></button>
     </div>
+    <p>Lista de ingresos del {{ selectedDay }} de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</p>
   </div>
 </div>
 
