@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IngresosService } from './ingresos.service';
 import { response } from 'express';
+import { ListaIngresosComponent } from "../../lista-ingresos/lista-ingresos.component";
 
 @Component({
   selector: 'app-costo',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ListaIngresosComponent],
   templateUrl: './costo.component.html',
   styleUrl: './costo.component.css'
 })

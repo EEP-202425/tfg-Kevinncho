@@ -37,6 +37,30 @@
       "fecha": "1/1/2025",
       "concepto": "Beca de universidad",
       "monto": 2000
+    },
+    {
+      "id": "9a6b",
+      "fecha": "2025-1-18",
+      "concepto": "Beca de universidad",
+      "monto": 2000
+    },
+    {
+      "id": "b185",
+      "fecha": "2025-1-18",
+      "concepto": "Paga extra",
+      "monto": 300
+    },
+    {
+      "id": "bc27",
+      "fecha": "2025-2-18",
+      "concepto": "Bono San Valentin",
+      "monto": 250
+    },
+    {
+      "id": "295f",
+      "fecha": "2025-3-10",
+      "concepto": "Paga Trabajo",
+      "monto": 1200
     }
   ]
 }
