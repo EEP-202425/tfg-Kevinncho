@@ -106,3 +106,11 @@ margin: 0px 40px;
   color: #fbfbfb; /* Cambia el color al pasar el mouse */
   transform: scale(1.1); /* Aumenta ligeramente el tamaño */
 }
+.contenedor-fecha-buscar{
+  text-align: center;
+  font-size: 15px;
+  border-top: 0.5px solid #3f3d4f; /* Borde superior */
+  border-bottom: 0.5px solid #3f3d4f; /* Borde inferior */
+  padding: 10px;
+  background-color: #3f3d4f;
+}

@@ -34,10 +34,30 @@
       <button class="icono-guardar" (click)="saveIncome()"><i class="fa-regular fa-floppy-disk"></i></button>
     </div>
 
-    <h4>Lista de ingresos del {{ selectedDay }} de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
+    <h4>Lista de ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
+    <div class="contenedor-fecha-buscar">
+      <!-- Selector de Mes -->
+      <label class="mes-label" for="month">Mes:</label>
+      <select class="select-mes" id="month" [(ngModel)]="selectedMonth" (change)="updateDays()">
+        <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+      </select>
+
+      <!-- Selector de Año -->
+      <label for="year" class="año-label">Año:</label>
+      <select id="year" class="año-select" [(ngModel)]="selectedYear" (change)="updateDays()">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+
+      <!-- Mostrar los días disponibles -->
+      <label for="day" class="label-dia">Día:</label>
+      <select id="day" class="select-dia" [(ngModel)]="selectedDay">
+        <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+      </select>
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
     <ul>
       <li *ngFor="let income of filteredIncomes">
-        <strong>{{ income.concepto }}</strong> - {{ income.monto | currency }}
+        <strong>{{ income.fecha }}:</strong> {{ income.concepto }} - {{ income.monto | currency }}
       </li>
     </ul>
   </div>

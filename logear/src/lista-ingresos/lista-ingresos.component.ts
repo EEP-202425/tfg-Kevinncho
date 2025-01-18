@@ -44,9 +44,9 @@ export class ListaIngresosComponent {
   updateDays() {
     const daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
     this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-    this.filterIncomes();
-  }
 
+    this.filterIncomes(); // Aplicar filtro nuevamente
+  }
   saveIncome() {
     if (this.incomeConcept && this.incomeAmount > 0) {
       const newIncome = {
@@ -54,6 +54,7 @@ export class ListaIngresosComponent {
         concepto: this.incomeConcept,
         monto: this.incomeAmount,
       };
+
 
       this.ingresosService.saveIncome(newIncome).subscribe((savedIncome) => {
         this.incomes.push(savedIncome);
@@ -66,7 +67,7 @@ export class ListaIngresosComponent {
 
   loadIncomes() {
     this.ingresosService.getIncomes().subscribe((data) => {
-      this.incomes = data;
+      this.incomes = data; // Asegúrate de que sea un arreglo
       this.filterIncomes();
     });
   }
@@ -74,6 +75,8 @@ export class ListaIngresosComponent {
   filterIncomes() {
     const selectedDate = `${this.selectedYear}-${this.selectedMonth}-${this.selectedDay}`;
     this.filteredIncomes = this.incomes.filter((income) => income.fecha === selectedDate);
+
   }
+
 
 }
