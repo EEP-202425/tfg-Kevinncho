@@ -33,166 +33,34 @@
   ],
   "ingresos": [
     {
-      "id": "d300",
-      "fecha": "2025-01-18",
-      "concepto": "Beca de universidad",
-      "monto": 2000
-    },
-    {
-      "id": "c261",
-      "fecha": "2024-04-18",
-      "concepto": "Paga extra",
-      "monto": 100
-    },
-    {
-      "id": "98ca",
-      "fecha": "2025-1-18",
-      "concepto": "Beca de universidad",
-      "monto": 2000
-    },
-    {
-      "id": "56ac",
-      "fecha": "2025-1-18",
-      "concepto": "Paga extra",
-      "monto": 10
-    },
-    {
-      "id": "629f",
-      "fecha": "2025-2-18",
-      "concepto": "Beca de universidad",
-      "monto": 220
-    },
-    {
-      "id": "dd26",
-      "fecha": "2025-2-2",
-      "concepto": "Paga extra",
-      "monto": 340
-    },
-    {
-      "id": "633d",
-      "fecha": "2025-2-5",
-      "concepto": "Beca de nosee",
-      "monto": 3000
-    },
-    {
-      "id": "c743",
-      "fecha": "2025-2-3",
-      "concepto": "Paga extra",
-      "monto": 1000
-    },
-    {
-      "id": "5735",
-      "fecha": "2025-1-18",
-      "concepto": "Bono",
-      "monto": 200
-    },
-    {
-      "id": "fa58",
-      "fecha": "2025-2-18",
-      "concepto": "Paga extra",
-      "monto": 100
-    },
-    {
-      "id": "e094",
-      "fecha": "2025-2-8",
-      "concepto": "Prestamo",
-      "monto": 400
-    },
-    {
-      "id": "5051",
-      "fecha": "2025-2-4",
-      "concepto": "Paga extra",
-      "monto": 220
-    },
-    {
-      "id": "c410",
-      "fecha": "2025-1-4",
-      "concepto": "bonoooo",
-      "monto": 233
-    },
-    {
-      "id": "caf5",
-      "fecha": "2024-3-1",
-      "concepto": "Paga extra",
-      "monto": 3000
-    },
-    {
-      "id": "48ab",
-      "fecha": "2025-2-4",
-      "concepto": "Bitcoin",
-      "monto": 5000
-    },
-    {
-      "id": "c82c",
-      "fecha": "2025-2-4",
-      "concepto": "Beca de universidad",
-      "monto": 2000
-    },
-    {
-      "id": "6692",
-      "fecha": "2025-1-1",
-      "concepto": "Apuestas",
-      "monto": 600
-    },
-    {
-      "id": "e854",
-      "fecha": "2025-1-1",
-      "concepto": "Beca de investigacion",
-      "monto": 3000
-    },
-    {
-      "id": "2c51",
-      "fecha": "2025-1-5",
-      "concepto": "PAGA DE CUMPLE",
-      "monto": 200
-    },
-    {
-      "id": "b430",
-      "fecha": "2025-1-5",
-      "concepto": "Paga extra",
-      "monto": 240
-    },
-    {
-      "id": "d65b",
-      "fecha": "2025-1-6",
-      "concepto": "adelanto",
-      "monto": 100
-    },
-    {
-      "id": "635d",
-      "fecha": "2025-1-1",
-      "concepto": "estudios",
+      "id": "2ffa",
+      "fecha": "2025-01-09",
+      "concepto": "Regalo Cumpleaños",
       "monto": 300
     },
     {
-      "id": "86f6",
-      "fecha": "2025-3-31",
-      "concepto": "ingreso de cumple",
-      "monto": 300
+      "id": "3a53",
+      "fecha": "2025-01-09",
+      "concepto": "Bono Año nuevo",
+      "monto": 150
     },
     {
-      "id": "d415",
-      "fecha": "2025-3-31",
-      "concepto": "Ingreso de estuids",
-      "monto": 20
+      "id": "f9fa",
+      "fecha": "2024-12-25",
+      "concepto": "Bono de navidad",
+      "monto": 200
     },
     {
-      "id": "f99d",
-      "fecha": "2025-3-31",
-      "concepto": "pago beca",
+      "id": "b3f3",
+      "fecha": "2024-12-25",
+      "concepto": "Paga de trabajo",
+      "monto": 1200
+    },
+    {
+      "id": "efbb",
+      "fecha": "2025-03-31",
+      "concepto": "Paga extra",
       "monto": 500
-    },
-    {
-      "id": "c816",
-      "fecha": "2024-4-9",
-      "concepto": "Jubilacion",
-      "monto": 3600
-    },
-    {
-      "id": "ddc4",
-      "fecha": "2024-4-9",
-      "concepto": "Arriendo",
-      "monto": 700
     }
   ]
 }

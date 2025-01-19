@@ -15,6 +15,8 @@ export class ListaIngresosComponent {
   selectedDay: number = new Date().getDate();
   incomeConcept: string = '';
   incomeAmount: number = 0;
+  incomeFech: string= '';
+  showNewIncomeForm: boolean = false;
   months = [
     { name: 'Enero', value: 1 },
     { name: 'Febrero', value: 2 },
@@ -48,20 +50,23 @@ export class ListaIngresosComponent {
     this.filterIncomes(); // Aplicar filtro nuevamente
   }
   saveIncome() {
-    if (this.incomeConcept && this.incomeAmount > 0) {
+    const formattedDate = new Date(this.incomeFech).toISOString().split('T')[0];
+
+    if (this.incomeFech && this.incomeConcept && this.incomeAmount > 0) {
       const newIncome = {
-        fecha: `${this.selectedYear}-${this.selectedMonth}-${this.selectedDay}`,
-        concepto: this.incomeConcept,
+        fecha: formattedDate,
+        concepto: this.incomeConcept.trim(),
         monto: this.incomeAmount,
       };
-
 
       this.ingresosService.saveIncome(newIncome).subscribe((savedIncome) => {
         this.incomes.push(savedIncome);
         this.filterIncomes();
-        this.incomeConcept = '';
-        this.incomeAmount = 0;
+        this.loadIncomes();
+        this.resetForm(); // Limpiar formulario después de guardar
       });
+    } else {
+      alert('Por favor, completa todos los campos correctamente.');
     }
   }
 
@@ -73,16 +78,21 @@ export class ListaIngresosComponent {
   }
 
   filterIncomes() {
-    const selectedDate = `${this.selectedYear}-${this.selectedMonth}-${this.selectedDay}`;
-    this.filteredIncomes = this.incomes.filter((income) => income.fecha === selectedDate);
+    const selectedDate = `${this.selectedYear}-${this.selectedMonth.toString().padStart(2, '0')}-${this.selectedDay.toString().padStart(2, '0')}`;
+    console.log('Fecha seleccionada:', selectedDate);
+    console.log('Ingresos:', this.incomes);
 
+    this.filteredIncomes = this.incomes.filter((income) => income.fecha === selectedDate);
   }
-  showNewIncomeForm: boolean = false;
 
 toggleNewIncomeForm() {
   this.showNewIncomeForm = !this.showNewIncomeForm;
 }
-
+ resetForm() {
+    this.incomeFech = '';
+    this.incomeConcept = '';
+    this.incomeAmount = 0;
+  }
 
 
 }
