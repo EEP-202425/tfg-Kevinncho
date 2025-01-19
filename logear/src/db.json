@@ -181,6 +181,18 @@
       "fecha": "2025-3-31",
       "concepto": "pago beca",
       "monto": 500
+    },
+    {
+      "id": "c816",
+      "fecha": "2024-4-9",
+      "concepto": "Jubilacion",
+      "monto": 3600
+    },
+    {
+      "id": "ddc4",
+      "fecha": "2024-4-9",
+      "concepto": "Arriendo",
+      "monto": 700
     }
   ]
 }

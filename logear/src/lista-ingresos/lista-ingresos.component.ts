@@ -77,6 +77,12 @@ export class ListaIngresosComponent {
     this.filteredIncomes = this.incomes.filter((income) => income.fecha === selectedDate);
 
   }
+  showNewIncomeForm: boolean = false;
+
+toggleNewIncomeForm() {
+  this.showNewIncomeForm = !this.showNewIncomeForm;
+}
+
 
 
 }
