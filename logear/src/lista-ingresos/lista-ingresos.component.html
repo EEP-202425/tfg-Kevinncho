@@ -49,7 +49,7 @@
           </li>
           <!-- Datos de ingresos -->
           <li *ngFor="let income of filteredIncomes">
-            <span class="fecha">{{ income.fecha }}</span>
+            <span class="fecha"><div class="icono-circulo"><i class="fa-regular fa-circle"></i></div> {{ income.fecha }}</span>
             <span class="concepto">{{ income.concepto }}</span>
             <span class="monto">{{ income.monto | currency }}</span>
           </li>
