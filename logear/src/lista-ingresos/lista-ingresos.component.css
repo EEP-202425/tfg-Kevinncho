@@ -140,3 +140,52 @@ margin: 0px 40px;
   padding: 10px;
   background-color: #3f3d4f;
 }
+.valores-delos-ingresos {
+  display: grid; /* Activar Grid */
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual tamaño */
+  padding: 0;
+  background-color: #3f3d4f; /* Fondo oscuro */
+  border-radius: 3px;
+}
+
+.valores-delos-ingresos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: contents; /* Para que los elementos hijos sigan el grid */
+}
+
+.valores-delos-ingresos li {
+  display: contents;
+  border-bottom: 1px solid #fff6f6; /* Línea divisoria que cubre toda la fila */
+}
+.valores-delos-ingresos li:not(:last-child) {
+  border-bottom: 1px solid #fff; /* Línea blanca entre registros */
+}
+
+
+.valores-delos-ingresos span {
+  padding: 20px 10px;
+}
+
+.valores-delos-ingresos span.fecha {
+  text-align: left;
+  color: #dedede;
+  border-bottom: 1px solid #dedede; /* Línea blanca después de la fecha */
+  padding: 20px 35px;
+}
+
+.valores-delos-ingresos span.concepto {
+  text-align: center;
+  color: #dedede;
+  border-bottom: 1px solid #ddd8d8; /* Línea blanca después de la fecha */
+
+}
+
+.valores-delos-ingresos span.monto {
+  text-align: center;
+  font-weight: bold;
+  color: #dedede; /* Destacar el monto */
+  border-bottom: 1px solid #dedede; /* Línea blanca después de la fecha */
+
+}

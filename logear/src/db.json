@@ -61,6 +61,12 @@
       "fecha": "2025-03-31",
       "concepto": "Paga extra",
       "monto": 500
+    },
+    {
+      "id": "a8b8",
+      "fecha": "2025-01-09",
+      "concepto": "Apuestas",
+      "monto": 400
     }
   ]
 }

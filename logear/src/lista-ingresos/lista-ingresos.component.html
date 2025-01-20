@@ -39,8 +39,20 @@
       </div>
     </div>
       <h4>Lista de ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
-    <ul>
-      <li *ngFor="let income of filteredIncomes">
-        <strong>{{ income.fecha }}:</strong> {{ income.concepto }} - {{ income.monto | currency }}
-      </li>
-    </ul>
+      <div class="valores-delos-ingresos">
+        <!-- Títulos de las columnas -->
+        <ul>
+          <li>
+            <span class="fecha"><strong>Fecha</strong></span>
+            <span class="concepto"><strong>Concepto</strong></span>
+            <span class="monto"><strong>Monto</strong></span>
+          </li>
+          <!-- Datos de ingresos -->
+          <li *ngFor="let income of filteredIncomes">
+            <span class="fecha">{{ income.fecha }}</span>
+            <span class="concepto">{{ income.concepto }}</span>
+            <span class="monto">{{ income.monto | currency }}</span>
+          </li>
+        </ul>
+      </div>
+
