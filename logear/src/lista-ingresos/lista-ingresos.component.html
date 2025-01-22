@@ -48,8 +48,17 @@
             <span class="monto"><strong>Monto</strong></span>
           </li>
           <!-- Datos de ingresos -->
-          <li *ngFor="let income of filteredIncomes">
-            <span class="fecha"><div class="icono-circulo"><i class="fa-regular fa-circle icono-botonCirculo"></i></div> {{ income.fecha }}</span>
+          <li *ngFor="let income of filteredIncomes; let i = index">
+            <span class="fecha">
+              <div class="icono-circulo">
+                <i
+                  class="fa-regular fa-circle icono-botonCirculo"
+                  [ngClass]="{'seleccionado': isIncomeSelected(i)}"
+                  (click)="toggleIncomeSelection(i)">
+                </i>
+              </div>
+              {{ income.fecha }}
+            </span>
             <span class="concepto">{{ income.concepto }}</span>
             <span class="monto">{{ income.monto | currency }} <div class="icono-editar"><i class="fa-regular fa-pen-to-square icono-botonEditar"></i></div><div class="icono-borrar"><i class="fa-solid fa-trash-can icono-botonBorrar"></i></div></span>
           </li>

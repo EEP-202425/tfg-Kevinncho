@@ -191,7 +191,14 @@ margin: 0px 40px;
 .icono-circulo{
   margin: 0px 0px -20px -25px;
 }
-
+.icono-botonCirculo{
+  cursor: pointer;
+}
+.icono-botonCirculo.seleccionado {
+  color: #dedede; /* Cambia este color según tus necesidades */
+  background-color: #dedede;
+  border-radius: 50%;
+}
 .icono-editar{
   margin: -20px 0px 0px 105px;
 
