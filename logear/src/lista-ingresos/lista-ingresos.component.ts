@@ -17,6 +17,8 @@ export class ListaIngresosComponent {
   incomeAmount: number = 0;
   incomeFech: string= '';
   showNewIncomeForm: boolean = false;
+  icons = [1, 2, 3, 4]; // Solo defines los iconos (puede venir de un backend o base de datos)
+  selectedIcon: number | null = null;
   months = [
     { name: 'Enero', value: 1 },
     { name: 'Febrero', value: 2 },
@@ -94,5 +96,7 @@ toggleNewIncomeForm() {
     this.incomeAmount = 0;
   }
 
-
+  toggleCircle(index: number) {
+    this.incomes[index].selected = !this.incomes[index].selected;
+  }
 }
