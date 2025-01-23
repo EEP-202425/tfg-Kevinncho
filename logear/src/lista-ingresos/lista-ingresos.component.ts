@@ -18,6 +18,8 @@ export class ListaIngresosComponent {
   incomeFech: string= '';
   showNewIncomeForm: boolean = false;
   selectedIncomes: number[] = [];
+  editingIncomeIndex: number | null = null;
+
 
   months = [
     { name: 'Enero', value: 1 },
@@ -107,6 +109,21 @@ toggleNewIncomeForm() {
 
   isIncomeSelected(incomeIndex: number): boolean {
     return this.selectedIncomes.includes(incomeIndex);
+  }
+  saveEditedIncome(incomeIndex: number) {
+    const editedIncome = this.filteredIncomes[incomeIndex];
+
+    if (editedIncome.concepto.trim() && editedIncome.monto > 0) {
+      this.ingresosService.updateIncome(editedIncome).subscribe(() => {
+        this.loadIncomes(); // Recargar la lista de ingresos
+        this.editingIncomeIndex = null; // Salir del modo de edición
+      });
+    } else {
+      alert('Por favor, completa todos los campos correctamente.');
+    }
+  }
+  editIncome(incomeIndex: number) {
+    this.editingIncomeIndex = incomeIndex;
   }
 
 }

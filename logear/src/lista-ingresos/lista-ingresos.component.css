@@ -102,7 +102,7 @@ margin: 0px 40px;
   font-size: 20px;
   transition: transform 0.2s, color 0.2s;
 }
-.icono-guardar:hover {
+.icono-guardar:hover{
   color: #fbfbfb; /* Cambia el color al pasar el mouse */
   transform: scale(1.1); /* Aumenta ligeramente el tamaño */
 }
@@ -215,6 +215,9 @@ margin: 0px 40px;
 .icono-borrar{
   margin: -18px 0px 0px 165px;
 }
+.boton-guardar-al-editar{
+  margin: -20px 61px 0px 165px;
+}
 .icono-botonBorrar{
   transition: transform 0.2s, color 0.2s;
   cursor: pointer;
@@ -224,5 +227,15 @@ margin: 0px 40px;
   color: #fbfbfb; /* Cambia el color al pasar el mouse */
   transform: scale(1.1);
 }
-
-
+.botonBorrar-ingresos{
+  margin: -15px 0px 10px 15px;
+}
+.icono-botonGuardar{
+  transition: transform 0.2s, color 0.2s;
+  cursor: pointer;
+  color: #fbfbfb;
+}
+.icono-botonGuardar:hover{
+  color: #fbfbfb; /* Cambia el color al pasar el mouse */
+  transform: scale(1.1);
+}

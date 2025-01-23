@@ -39,6 +39,9 @@
       </div>
     </div>
       <h4>Lista de ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
+      <div class="botonBorrar-ingresos">
+      <i class="fa-solid fa-trash-can icono-botonBorrar"></i>
+      </div>
       <div class="valores-delos-ingresos">
         <!-- Títulos de las columnas -->
         <ul>
@@ -59,8 +62,26 @@
               </div>
               {{ income.fecha }}
             </span>
-            <span class="concepto">{{ income.concepto }}</span>
-            <span class="monto">{{ income.monto | currency }} <div class="icono-editar"><i class="fa-regular fa-pen-to-square icono-botonEditar"></i></div><div class="icono-borrar"><i class="fa-solid fa-trash-can icono-botonBorrar"></i></div></span>
+            <span class="concepto"><div *ngIf="editingIncomeIndex === i"><input
+              [(ngModel)]="income.concepto"
+              class="input-editar"
+              type="text"
+            /></div><div *ngIf="editingIncomeIndex !== i">{{ income.concepto }}</div></span>
+            <span class="monto"><div *ngIf="editingIncomeIndex === i">
+              <input
+                [(ngModel)]="income.monto"
+                class="input-editar"
+                type="number"
+              />
+            </div><div *ngIf="editingIncomeIndex !== i">{{ income.monto | currency }}</div> <div class="icono-editar"><i class="fa-regular fa-pen-to-square icono-botonEditar" *ngIf="editingIncomeIndex !== i"
+              (click)="editIncome(i)"></i></div>
+              <div class="boton-guardar-al-editar">
+                <i class="fa-regular fa-floppy-disk icono-botonGuardar"
+                *ngIf="editingIncomeIndex === i"
+                (click)="saveEditedIncome(i)">
+                </i>
+              </div>
+              <div class="icono-borrar"><i class="fa-solid fa-trash-can icono-botonBorrar"></i></div></span>
           </li>
         </ul>
       </div>

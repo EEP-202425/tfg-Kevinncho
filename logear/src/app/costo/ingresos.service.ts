@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 interface Ingresos{
+  id?: number;
   fecha: string;
   concepto: string;
   monto: number;
@@ -21,5 +22,10 @@ export class IngresosService {
    getIncomes(): Observable<Ingresos[]> {
     return this.http.get<Ingresos[]>(this.apiUrl);
   }
+  updateIncome(income: Ingresos): Observable<Ingresos> {
+    // Asegúrate de que `income` tenga un `id` válido para usar en la URL
+    return this.http.put<Ingresos>(`${this.apiUrl}/${income.id}`, income);
+  }
+
 
 }

@@ -35,8 +35,8 @@
     {
       "id": "2ffa",
       "fecha": "2025-01-09",
-      "concepto": "Regalo Cumpleaños",
-      "monto": 300
+      "concepto": "Regalo De la empresa",
+      "monto": 120
     },
     {
       "id": "3a53",
@@ -67,6 +67,12 @@
       "fecha": "2025-01-09",
       "concepto": "Apuestas",
       "monto": 400
+    },
+    {
+      "id": "42df",
+      "fecha": "2025-01-09",
+      "concepto": "ingreso de trabajo",
+      "monto": 1200
     }
   ]
 }
