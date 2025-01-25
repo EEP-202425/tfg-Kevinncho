@@ -26,6 +26,9 @@ export class IngresosService {
     // Asegúrate de que `income` tenga un `id` válido para usar en la URL
     return this.http.put<Ingresos>(`${this.apiUrl}/${income.id}`, income);
   }
+  deleteIncome(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 
 
 }

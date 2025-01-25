@@ -125,5 +125,16 @@ toggleNewIncomeForm() {
   editIncome(incomeIndex: number) {
     this.editingIncomeIndex = incomeIndex;
   }
+  deleteIncome(incomeIndex: number) {
+    const incomeToDelete = this.filteredIncomes[incomeIndex];
+
+    if (confirm(`¿Estás seguro de que deseas eliminar el ingreso con el concepto "${incomeToDelete.concepto}"?`)) {
+      this.ingresosService.deleteIncome(incomeToDelete.id).subscribe(() => {
+        // Remover ingreso de la lista local después de eliminarlo del servidor
+        this.incomes = this.incomes.filter((income) => income.id !== incomeToDelete.id);
+        this.filterIncomes(); // Actualizar la lista filtrada
+      });
+    }
+  }
 
 }
