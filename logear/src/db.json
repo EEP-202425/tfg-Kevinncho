@@ -51,22 +51,46 @@
       "monto": 500
     },
     {
-      "id": "42df",
-      "fecha": "2025-01-09",
-      "concepto": "Bonificación",
-      "monto": 300
-    },
-    {
       "id": "a4cf",
       "fecha": "2024-12-25",
       "concepto": "Horas Extra",
       "monto": 200
     },
     {
-      "id": "ca57",
+      "id": "142f",
       "fecha": "2025-01-09",
-      "concepto": "Interes",
-      "monto": 240
+      "concepto": "Beca estudiantil",
+      "monto": 2000
+    },
+    {
+      "id": "4aa8",
+      "fecha": "2025-01-16",
+      "concepto": "Paga extra",
+      "monto": 400
+    },
+    {
+      "id": "f545",
+      "fecha": "2025-01-09",
+      "concepto": "Bonificacion",
+      "monto": 280
+    },
+    {
+      "id": "e9fe",
+      "fecha": "2025-01-09",
+      "concepto": "Intereses",
+      "monto": 920
+    },
+    {
+      "id": "cb55",
+      "fecha": "2025-01-16",
+      "concepto": "Alquileres",
+      "monto": 500
+    },
+    {
+      "id": "9ada",
+      "fecha": "2025-01-09",
+      "concepto": "Salario Mensual",
+      "monto": 1200
     }
   ]
 }

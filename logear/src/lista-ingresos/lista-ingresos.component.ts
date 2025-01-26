@@ -155,13 +155,20 @@ toggleNewIncomeForm() {
 
     const selectedIds = this.selectedIncomes.map((index) => this.filteredIncomes[index]?.id);
 
-    // Llamar al servicio para eliminar
-    this.ingresosService.deleteIncomes(selectedIds).subscribe(() => {
-      // Actualizar ingresos tras la eliminación
-      this.incomes = this.incomes.filter((_, i) => !this.selectedIncomes.includes(i));
-      this.filterIncomes();
-      this.selectedIncomes = []; // Limpiar selección
-    });
+    if (confirm('¿Estás seguro de que deseas eliminar los ingresos seleccionados?')) {
+      this.ingresosService.deleteIncomes(selectedIds).subscribe({
+        next: () => {
+          // Recargar ingresos tras la eliminación
+          this.loadIncomes();
+          this.selectedIncomes = []; // Limpiar selección
+          alert('Ingresos eliminados con éxito.');
+        },
+        error: (err) => {
+          console.error('Error al eliminar ingresos:', err);
+          alert('Ocurrió un error al intentar eliminar los ingresos.');
+        }
+      });
+    }
   }
 
 
