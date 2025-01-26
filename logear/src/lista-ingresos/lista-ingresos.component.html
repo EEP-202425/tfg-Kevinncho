@@ -40,7 +40,8 @@
     </div>
       <h4>Lista de ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
       <div class="botonBorrar-ingresos">
-      <i class="fa-solid fa-trash-can icono-botonBorrar"></i>
+        <i class="fa-solid fa-trash-can icono-botonBorrar"
+        (click)="deleteSelectedIncomes()" ></i>
       </div>
       <div class="valores-delos-ingresos">
         <!-- Títulos de las columnas -->
@@ -55,9 +56,9 @@
             <span class="fecha">
               <div class="icono-circulo">
                 <i
-                  class="fa-regular fa-circle icono-botonCirculo"
-                  [ngClass]="{'seleccionado': isIncomeSelected(i)}"
-                  (click)="toggleIncomeSelection(i)">
+                class="fa-regular fa-circle icono-botonCirculo"
+                [ngClass]="{'seleccionado': selectedIncomes.includes(i)}"
+                (click)="toggleIncomeSelection(i)">
                 </i>
               </div>
               {{ income.fecha }}

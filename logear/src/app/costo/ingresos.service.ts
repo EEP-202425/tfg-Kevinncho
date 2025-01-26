@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs';
+
 interface Ingresos{
   id?: number;
   fecha: string;
@@ -29,6 +32,29 @@ export class IngresosService {
   deleteIncome(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  deleteMultipleIncomes(ids: number[]): Observable<void> {
+    // Realiza múltiples peticiones DELETE para cada ID
+    const requests = ids.map(id => this.http.delete<void>(`${this.apiUrl}/${id}`));
+    return new Observable(observer => {
+      Promise.all(requests)
+        .then(() => {
+          observer.next();
+          observer.complete();
+        })
+        .catch(error => observer.error(error));
+    });
+  }
+  deleteIncomes(ids: number[]): Observable<void> {
+    // Crear una solicitud DELETE para cada ID
+    const deleteRequests = ids.map(id => this.http.delete<void>(`${this.apiUrl}/${id}`));
+
+    // Ejecutar todas las solicitudes en paralelo
+    return forkJoin(deleteRequests).pipe(
+      // Cuando todas las solicitudes terminen, emitir un valor vacío
+      map(() => {})
+    );
+  }
+
 
 
 }

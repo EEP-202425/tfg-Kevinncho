@@ -40,6 +40,8 @@ export class ListaIngresosComponent {
   days: number[] = [];
   incomes: any[] = [];
   filteredIncomes: any[] = [];
+  selectedIds: number[] = []; // IDs seleccionados para eliminar
+
 
   constructor(private ingresosService: IngresosService) {}
   ngOnInit() {
@@ -99,13 +101,14 @@ toggleNewIncomeForm() {
   }
 
   toggleIncomeSelection(incomeIndex: number) {
-    const index = this.selectedIncomes.indexOf(incomeIndex);
-    if (index === -1) {
+    const selectedIndex  = this.selectedIncomes.indexOf(incomeIndex);
+    if (selectedIndex  === -1) {
       this.selectedIncomes.push(incomeIndex);
     } else {
-      this.selectedIncomes.splice(index, 1);
+      this.selectedIncomes.splice(selectedIndex , 1);
     }
   }
+
 
   isIncomeSelected(incomeIndex: number): boolean {
     return this.selectedIncomes.includes(incomeIndex);
@@ -136,5 +139,31 @@ toggleNewIncomeForm() {
       });
     }
   }
+  toggleSelection(id: number): void {
+    if (this.selectedIds.includes(id)) {
+      this.selectedIds = this.selectedIds.filter(selectedId => selectedId !== id);
+    } else {
+      this.selectedIds.push(id);
+    }
+  }
+
+  deleteSelectedIncomes() {
+    if (this.selectedIncomes.length === 0) {
+      alert('Selecciona al menos un ingreso para eliminar.');
+      return;
+    }
+
+    const selectedIds = this.selectedIncomes.map((index) => this.filteredIncomes[index]?.id);
+
+    // Llamar al servicio para eliminar
+    this.ingresosService.deleteIncomes(selectedIds).subscribe(() => {
+      // Actualizar ingresos tras la eliminación
+      this.incomes = this.incomes.filter((_, i) => !this.selectedIncomes.includes(i));
+      this.filterIncomes();
+      this.selectedIncomes = []; // Limpiar selección
+    });
+  }
+
+
 
 }

@@ -33,18 +33,6 @@
   ],
   "ingresos": [
     {
-      "id": "2ffa",
-      "fecha": "2025-01-09",
-      "concepto": "Extra",
-      "monto": 270
-    },
-    {
-      "id": "3a53",
-      "fecha": "2025-01-09",
-      "concepto": "Bono Año nuevo",
-      "monto": 150
-    },
-    {
       "id": "f9fa",
       "fecha": "2024-12-25",
       "concepto": "Bono de navidad",
