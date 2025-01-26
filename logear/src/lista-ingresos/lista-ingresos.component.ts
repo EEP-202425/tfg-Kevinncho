@@ -42,7 +42,7 @@ export class ListaIngresosComponent {
   filteredIncomes: any[] = [];
   selectedIds: number[] = []; // IDs seleccionados para eliminar
 
-
+  totalIngresos: number = 0; 
   constructor(private ingresosService: IngresosService) {}
   ngOnInit() {
     this.updateDays();
@@ -89,6 +89,8 @@ export class ListaIngresosComponent {
     console.log('Ingresos:', this.incomes);
 
     this.filteredIncomes = this.incomes.filter((income) => income.fecha === selectedDate);
+    this.totalIngresos = this.filteredIncomes.reduce((sum, income) => sum + income.monto, 0);
+
   }
 
 toggleNewIncomeForm() {

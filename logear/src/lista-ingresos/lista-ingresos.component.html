@@ -85,5 +85,8 @@
               <div class="icono-borrar"><i class="fa-solid fa-trash-can icono-botonBorrar" (click)="deleteIncome(i)"></i></div></span>
           </li>
         </ul>
+        <div class="total-ingresos">
+          <p><strong>Total de ingresos: {{ totalIngresos | currency:'USD':'symbol' }}</strong></p>
+        </div>
       </div>
 
