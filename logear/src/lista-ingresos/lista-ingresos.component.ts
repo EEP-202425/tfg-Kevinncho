@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IngresosService } from '../app/costo/ingresos.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-lista-ingresos',
   standalone: true,
@@ -42,7 +44,7 @@ export class ListaIngresosComponent {
   filteredIncomes: any[] = [];
   selectedIds: number[] = []; // IDs seleccionados para eliminar
 
-  totalIngresos: number = 0; 
+  totalIngresos: number = 0;
   constructor(private ingresosService: IngresosService) {}
   ngOnInit() {
     this.updateDays();
@@ -173,6 +175,89 @@ toggleNewIncomeForm() {
     }
   }
 
+  exportToExcel() {
+    // Crear un nuevo libro de trabajo
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Ingresos');
 
+    // Definir columnas
+    worksheet.columns = [
+      { header: 'Fecha', key: 'fecha', width: 15 },
+      { header: 'Concepto', key: 'concepto', width: 30 },
+      { header: 'Monto', key: 'monto', width: 15 },
+    ];
+
+    // Añadir datos a la hoja
+    this.filteredIncomes.forEach((income) => {
+      worksheet.addRow({
+        fecha: income.fecha,
+        concepto: income.concepto,
+        monto: income.monto,
+      });
+    });
+
+    // Calcular total de ingresos y añadirlo al final
+    const total = this.filteredIncomes.reduce((sum, income) => sum + income.monto, 0);
+    const totalRow = worksheet.addRow({ fecha: 'Total', concepto: '', monto: total });
+
+    // Estilos para los encabezados
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }; // Blanco
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF305496' },
+      };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    });
+      // Estilo alternado para filas (zebra striping)
+  worksheet.eachRow((row, rowIndex) => {
+    if (rowIndex > 1) {
+      const isEven = rowIndex % 2 === 0;
+      row.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: isEven ? 'FFD9E2F3' : 'FFFFFFFF' }, // Azul claro y blanco
+        };
+        cell.alignment = { horizontal: 'left', vertical: 'middle' };
+      });
+    }
+  });
+
+    // Estilos para la fila de totales
+    totalRow.eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }; // Blanco
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF305496' }, 
+      };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    });
+
+    // Añadir bordes a todas las celdas
+    worksheet.eachRow((row) => {
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
+     // Centrar la columna "Monto"
+  worksheet.getColumn('monto').eachCell((cell) => {
+    cell.alignment = { horizontal: 'center', vertical: 'middle' };
+  });
+
+
+    // Generar el archivo Excel
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], { type: 'application/octet-stream' });
+      saveAs(blob, 'Ingresos.xlsx');
+    });
+  }
 
 }
