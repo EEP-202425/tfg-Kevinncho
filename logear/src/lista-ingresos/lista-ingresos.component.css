@@ -228,7 +228,7 @@ margin: 0px 40px;
   transform: scale(1.1);
 }
 .botonBorrar-ingresos{
-  margin: -15px 0px 10px 15px;
+  margin: -15px 0px 20px 30px;
 }
 .icono-botonGuardar{
   transition: transform 0.2s, color 0.2s;
@@ -239,6 +239,20 @@ margin: 0px 40px;
   color: #fbfbfb; /* Cambia el color al pasar el mouse */
   transform: scale(1.1);
 }
+.boton-excel{
+  transition: transform 0.2s, color 0.2s;
+  cursor: pointer;
+  color: #fbfbfb;
+  font-size: 17px;
+}
+.boton-excel:hover{
+  color: #217346; /* Cambia el color al pasar el mouse */
+  transform: scale(1.1);
+}
+.contenedor-boton-exportar{
+  margin: -39px 7px 7px 0px;
+}
+
 .total-ingresos {
   grid-column: 3;
   margin-left: 90px;
