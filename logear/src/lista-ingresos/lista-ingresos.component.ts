@@ -86,14 +86,30 @@ export class ListaIngresosComponent {
   }
 
   filterIncomes() {
-    const selectedDate = `${this.selectedYear}-${this.selectedMonth.toString().padStart(2, '0')}-${this.selectedDay.toString().padStart(2, '0')}`;
-    console.log('Fecha seleccionada:', selectedDate);
-    console.log('Ingresos:', this.incomes);
+    const formattedMonth = this.selectedMonth.toString().padStart(2, '0'); // Asegura "01", "02", ..., "12"
+    const formattedYear = this.selectedYear.toString();
 
-    this.filteredIncomes = this.incomes.filter((income) => income.fecha === selectedDate);
+    if (this.selectedDay !== null && this.selectedDay !== undefined) {
+      // Filtro por día exacto
+      const formattedDay = this.selectedDay.toString().padStart(2, '0');
+      const selectedDate = `${formattedYear}-${formattedMonth}-${formattedDay}`;
+
+      // Eliminamos las comillas escapadas y espacios en blanco antes de hacer la comparación
+      this.filteredIncomes = this.incomes.filter(income => income.fecha.replace(/\"/g, '').trim() === selectedDate);
+    } else {
+      // Filtro por mes y año
+      const selectedMonth = `${formattedYear}-${formattedMonth}`;
+
+      // Eliminamos las comillas escapadas y espacios en blanco antes de hacer la comparación
+      this.filteredIncomes = this.incomes.filter(income => income.fecha.replace(/\"/g, '').trim().startsWith(selectedMonth));
+    }
+
     this.totalIngresos = this.filteredIncomes.reduce((sum, income) => sum + income.monto, 0);
+}
 
-  }
+
+
+
 
 toggleNewIncomeForm() {
   this.showNewIncomeForm = !this.showNewIncomeForm;
@@ -231,7 +247,7 @@ toggleNewIncomeForm() {
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FF305496' }, 
+        fgColor: { argb: 'FF305496' },
       };
       cell.alignment = { horizontal: 'center', vertical: 'middle' };
     });

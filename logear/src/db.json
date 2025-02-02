@@ -91,6 +91,18 @@
       "fecha": "2025-01-09",
       "concepto": "Salario Mensual",
       "monto": 1200
+    },
+    {
+      "id": "e1eb",
+      "fecha": "2025-01-01",
+      "concepto": "Bono Año nuevo",
+      "monto": 450
+    },
+    {
+      "id": "55df",
+      "fecha": "2025-01-14",
+      "concepto": "Apuestas",
+      "monto": 250
     }
   ]
 }

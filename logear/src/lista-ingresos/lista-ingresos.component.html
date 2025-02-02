@@ -10,11 +10,14 @@
         <option *ngFor="let year of years" [value]="year">{{ year }}</option>
       </select>
 
-      <!-- Mostrar los días disponibles -->
-      <label for="day" class="label-dia">Día:</label>
-      <select id="day" class="select-dia" [(ngModel)]="selectedDay">
-        <option *ngFor="let day of days" [value]="day">{{ day }}</option>
-      </select>
+      <!-- Selector de Día -->
+   <!-- Selector de Día -->
+  <label for="day" class="label-dia">Día:</label>
+  <select id="day" class="select-dia" [(ngModel)]="selectedDay">
+    <option [ngValue]="null">Todos los días</option>
+    <option *ngFor="let day of days" [ngValue]="day">{{ day }}</option>
+  </select>
+
 
       <!-- Botón buscar -->
       <i class="fa-solid fa-magnifying-glass icono-buscar" (click)="filterIncomes()"></i>
