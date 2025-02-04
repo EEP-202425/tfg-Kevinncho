@@ -59,8 +59,8 @@
     {
       "id": "142f",
       "fecha": "2025-01-09",
-      "concepto": "Beca estudiantil",
-      "monto": 2000
+      "concepto": "Beca estudiantiles",
+      "monto": 3000
     },
     {
       "id": "4aa8",
@@ -101,8 +101,68 @@
     {
       "id": "55df",
       "fecha": "2025-01-14",
-      "concepto": "Apuestas",
-      "monto": 250
+      "concepto": "Apuestas casino",
+      "monto": 350
+    },
+    {
+      "id": "1d67",
+      "fecha": "2025-02-01",
+      "concepto": "SAN VALENTIN",
+      "monto": 300
+    },
+    {
+      "id": "7593",
+      "fecha": "2025-02-01",
+      "concepto": "nosee",
+      "monto": 800
+    },
+    {
+      "id": "96aa",
+      "fecha": "2025-02-06",
+      "concepto": "estudios",
+      "monto": 220
+    },
+    {
+      "id": "a399",
+      "fecha": "2025-02-20",
+      "concepto": "Paga extra",
+      "monto": 900
+    },
+    {
+      "id": "e6a2",
+      "fecha": "2025-02-28",
+      "concepto": "cpm",
+      "monto": 200
+    },
+    {
+      "id": "8ad5",
+      "fecha": "2024-12-12",
+      "concepto": "Ayuda Social",
+      "monto": 340
+    },
+    {
+      "id": "d8c0",
+      "fecha": "2024-12-30",
+      "concepto": "Bono empresarial",
+      "monto": 70
+    },
+    {
+      "id": "8e92",
+      "fecha": "2024-12-31",
+      "concepto": "Estudios",
+      "monto": 1200
+    },
+    {
+      "id": "4dbd",
+      "fecha": "2024-12-02",
+      "concepto": "Alquiler",
+      "monto": 700
+    },
+    {
+      "id": "f3d2",
+      "fecha": "2024-12-27",
+      "concepto": "Venta garaje",
+      "monto": 50
     }
   ]
 }

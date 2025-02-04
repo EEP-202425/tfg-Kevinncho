@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import {Chart, ChartData, ChartOptions  } from 'chart.js/auto';
 @Component({
   selector: 'app-lista-ingresos',
   standalone: true,
@@ -45,10 +46,15 @@ export class ListaIngresosComponent {
   selectedIds: number[] = []; // IDs seleccionados para eliminar
 
   totalIngresos: number = 0;
+
+  ingresosPorDia: { [key: string]: number } = {};
+
+  chart: any;
   constructor(private ingresosService: IngresosService) {}
   ngOnInit() {
     this.updateDays();
     this.loadIncomes();
+    this.updateChart();
   }
 
   updateDays() {
@@ -83,7 +89,55 @@ export class ListaIngresosComponent {
       this.incomes = data; // Asegúrate de que sea un arreglo
       this.filterIncomes();
     });
+    this.procesarIngresos();
+    this.generarGrafico();
   }
+  procesarIngresos() {
+    this.ingresosPorDia = {};
+    this.totalIngresos = 0;
+
+    this.filteredIncomes.forEach((income) => {
+      const fecha = income.fecha.split('T')[0]; // Formato YYYY-MM-DD
+      this.ingresosPorDia[fecha] = (this.ingresosPorDia[fecha] || 0) + income.monto;
+      this.totalIngresos += income.monto;
+    });
+  }
+  generarGrafico() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    const fechas = Object.keys(this.ingresosPorDia).sort();
+    const montosAcumulados = fechas.reduce((acc, fecha, index) => {
+      acc.push((acc[index - 1] || 0) + this.ingresosPorDia[fecha]);
+      return acc;
+    }, [] as number[]);
+
+    const ctx = document.getElementById('ingresosChart') as HTMLCanvasElement;
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: fechas,
+        datasets: [{
+          label: 'Crecimiento de Ingresos',
+          data: montosAcumulados,
+          borderColor: 'blue',
+          backgroundColor: 'rgba(0, 123, 255, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }
+      }
+    });
+  }
+
 
   filterIncomes() {
     const formattedMonth = this.selectedMonth.toString().padStart(2, '0'); // Asegura "01", "02", ..., "12"
@@ -102,9 +156,12 @@ export class ListaIngresosComponent {
 
       // Eliminamos las comillas escapadas y espacios en blanco antes de hacer la comparación
       this.filteredIncomes = this.incomes.filter(income => income.fecha.replace(/\"/g, '').trim().startsWith(selectedMonth));
+      this.updateChart();
     }
 
     this.totalIngresos = this.filteredIncomes.reduce((sum, income) => sum + income.monto, 0);
+
+
 }
 
 
@@ -273,6 +330,42 @@ toggleNewIncomeForm() {
     workbook.xlsx.writeBuffer().then((buffer) => {
       const blob = new Blob([buffer], { type: 'application/octet-stream' });
       saveAs(blob, 'Ingresos.xlsx');
+    });
+  }
+  updateChart() {
+    if (this.chart) {
+      this.chart.destroy(); // Destruir el gráfico anterior
+    }
+
+    const ingresosPorDia = this.filteredIncomes.reduce((acc, income) => {
+      const dia = new Date(income.fecha).getDate();
+      acc[dia] = (acc[dia] || 0) + income.monto;
+      return acc;
+    }, {});
+
+    const dias = Object.keys(ingresosPorDia).map(dia => Number(dia)).sort((a, b) => a - b);
+    const montos = dias.map(dia => ingresosPorDia[dia]);
+
+    const ctx = document.getElementById('ingresosChart') as HTMLCanvasElement;
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dias, // Eje X con días del mes
+        datasets: [{
+          label: `Ingresos de ${this.months[this.selectedMonth - 1]?.name} ${this.selectedYear}`,
+          data: montos,
+          borderColor: 'blue',
+          backgroundColor: 'rgba(0, 0, 255, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: { title: { display: true, text: 'Días del mes' } },
+          y: { title: { display: true, text: 'Ingresos ($)' } }
+        }
+      }
     });
   }
 

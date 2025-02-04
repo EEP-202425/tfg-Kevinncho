@@ -95,4 +95,7 @@
           <p><strong>Total de ingresos: {{ totalIngresos | currency:'USD':'symbol' }}</strong></p>
         </div>
       </div>
+      <h2>Gráfico de Crecimiento de Ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h2>
+      <canvas id="ingresosChart"></canvas>
+
 
