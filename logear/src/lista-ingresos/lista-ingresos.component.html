@@ -55,7 +55,11 @@
           <li>
             <span class="fecha"><strong>Fecha</strong></span>
             <span class="concepto"><strong>Concepto</strong></span>
-            <span class="monto"><strong>Monto</strong></span>
+            <span class="monto"><strong> <div class="contenedor-ordenar">
+              <button class="ordenar-btn" (click)="toggleOrder()">
+                <i [ngClass]="orderBy === 'asc' ? 'fa-solid fa-arrow-up-wide-short' : 'fa-solid fa-arrow-down-wide-short'"></i>
+              </button>
+            </div> Monto</strong></span>
           </li>
           <!-- Datos de ingresos -->
           <li *ngFor="let income of filteredIncomes; let i = index">

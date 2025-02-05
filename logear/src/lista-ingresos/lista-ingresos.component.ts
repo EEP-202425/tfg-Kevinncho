@@ -46,6 +46,8 @@ export class ListaIngresosComponent {
   selectedIds: number[] = []; // IDs seleccionados para eliminar
 
   totalIngresos: number = 0;
+  orderBy: string = "null";
+
 
   ingresosPorDia: { [key: string]: number } = {};
 
@@ -160,7 +162,7 @@ export class ListaIngresosComponent {
     }
 
     this.totalIngresos = this.filteredIncomes.reduce((sum, income) => sum + income.monto, 0);
-
+    this.sortIncomes();
 
 }
 
@@ -368,5 +370,17 @@ toggleNewIncomeForm() {
       }
     });
   }
+
+
+
+  toggleOrder() {
+    this.orderBy = this.orderBy === "asc" ? "desc" : "asc";
+    this.sortIncomes();
+  }
+
+  sortIncomes() {
+    this.filteredIncomes.sort((a, b) => this.orderBy === "desc" ? b.monto - a.monto : a.monto - b.monto);
+  }
+
 
 }

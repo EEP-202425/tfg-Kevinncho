@@ -257,3 +257,23 @@ margin: 0px 40px;
   grid-column: 3;
   margin-left: 90px;
 }
+
+.ordenar-btn{
+  background-color: #3f3d4f;
+  border: #3f3d4f;
+  color: #fbfbfb;
+}
+.contenedor-ordenar{
+  margin: 0px 0px -19px -70px;
+}
+
+.fa-arrow-up-wide-short:hover{
+  color: #fbfbfb; /* Cambia el color al pasar el mouse */
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.fa-arrow-down-wide-short:hover{
+  color: #fbfbfb; /* Cambia el color al pasar el mouse */
+  transform: scale(1.1);
+  cursor: pointer;
+}
