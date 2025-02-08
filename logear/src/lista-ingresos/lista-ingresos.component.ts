@@ -48,6 +48,8 @@ export class ListaIngresosComponent {
   totalIngresos: number = 0;
   orderBy: string = "null";
 
+  orderByDate: string = "null"; // Orden de la fecha
+
 
   ingresosPorDia: { [key: string]: number } = {};
 
@@ -162,7 +164,8 @@ export class ListaIngresosComponent {
     }
 
     this.totalIngresos = this.filteredIncomes.reduce((sum, income) => sum + income.monto, 0);
-    this.sortIncomes();
+    this.sortByAmount();
+    this.sortByDate();
 
 }
 
@@ -375,12 +378,29 @@ toggleNewIncomeForm() {
 
   toggleOrder() {
     this.orderBy = this.orderBy === "asc" ? "desc" : "asc";
-    this.sortIncomes();
+    this.sortByAmount();
   }
+// Método para alternar orden de los ingresos por fecha
+toggleOrderByDate() {
+  this.orderByDate = this.orderByDate === 'asc' ? 'desc' : 'asc';
+  this.sortByDate();
+}
+sortByDate() {
+  if (this.orderByDate === 'null') return; // No ordenar si no está seleccionado
 
-  sortIncomes() {
-    this.filteredIncomes.sort((a, b) => this.orderBy === "desc" ? b.monto - a.monto : a.monto - b.monto);
-  }
+  this.filteredIncomes.sort((a, b) =>
+    this.orderByDate === 'asc'
+      ? new Date(a.fecha).getTime() - new Date(b.fecha).getTime()
+      : new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+  );
+}
+sortByAmount() {
+  if (this.orderBy === 'null') return; // No ordenar si no está seleccionado
+
+  this.filteredIncomes.sort((a, b) =>
+    this.orderBy === 'desc' ? b.monto - a.monto : a.monto - b.monto
+  );
+}
 
 
 }

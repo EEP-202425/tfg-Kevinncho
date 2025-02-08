@@ -53,7 +53,16 @@
         <!-- Títulos de las columnas -->
         <ul>
           <li>
-            <span class="fecha"><strong>Fecha</strong></span>
+            <span class="fecha">
+              <strong>
+                <div class="contenedor-ordenar-fecha">
+                  <button class="ordenar-btn" (click)="toggleOrderByDate()">
+                    <i [ngClass]="orderByDate === 'asc' ? 'fa-solid fa-arrow-up-wide-short' : 'fa-solid fa-arrow-down-wide-short'"></i>
+                  </button>
+                </div>
+                Fecha
+              </strong>
+            </span>
             <span class="concepto"><strong>Concepto</strong></span>
             <span class="monto"><strong> <div class="contenedor-ordenar">
               <button class="ordenar-btn" (click)="toggleOrder()">
@@ -99,7 +108,7 @@
           <p><strong>Total de ingresos: {{ totalIngresos | currency:'USD':'symbol' }}</strong></p>
         </div>
       </div>
-      <h2>Gráfico de Crecimiento de Ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h2>
+      <h2 class="titulo-grafico">Gráfico de Crecimiento de Ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h2>
       <canvas id="ingresosChart"></canvas>
 
 
