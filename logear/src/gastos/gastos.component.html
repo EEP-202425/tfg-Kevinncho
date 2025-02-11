@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="contenedor-fecha-buscar">
+    <!-- Selector de Mes -->
+    <label class="mes-label" for="month">Mes:</label>
+    <select class="select-mes" id="month" [(ngModel)]="selectedMonth" (change)="updateDays()">
+      <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+    </select>
+    <!-- Selector de Año -->
+    <label for="year" class="año-label">Año:</label>
+    <select id="year" class="año-select" [(ngModel)]="selectedYear" (change)="updateDays()">
+      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+    </select>
+
+    <!-- Selector de Día -->
+ <!-- Selector de Día -->
+<label for="day" class="label-dia">Día:</label>
+<select id="day" class="select-dia" [(ngModel)]="selectedDay">
+  <option [ngValue]="null">Todos los días</option>
+  <option *ngFor="let day of days" [ngValue]="day">{{ day }}</option>
+</select>
+<i class="fa-solid fa-magnifying-glass icono-buscar" (click)="filterGastos()"></i>
+</div>
+<br>
+<div class="contenedor-boton-mas">
+  <i class="fa-solid fa-circle-plus icono-mas" (click)="toggleNewIncomeForm()"></i>
+</div>
+<div *ngIf="showNewIncomeForm" class="registro-nuevo">
+  <h4>Registro de Ingreso</h4>
+  <div class="lista-ingresos">
+    <label class="label-concepIng" for="fech">Fecha:</label>
+    <input id="fech" [(ngModel)]="gastoFecha" type="date" />
+
+    <label class="label-concepIng" for="concept">Concepto de Ingreso:</label>
+    <input id="concept" [(ngModel)]="gastoConcept" type="text" />
+
+    <label class="label-cantidad" for="amount">Monto:</label>
+    <input id="amount" [(ngModel)]="cantidadGasto" type="number" />
+
+    <button class="icono-guardar" (click)="saveIncome()"><i class="fa-regular fa-floppy-disk"></i></button>
+  </div>
+</div>
+  <h4>Lista de gastos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
+  <div class="botonBorrar-ingresos">
+    <i class="fa-solid fa-trash-can icono-botonBorrar" (click)="deleteSelectedGastos()"></i>
+  </div>
+  <div class="contenedor-boton-exportar">
+    <i class="fa-solid fa-file-excel boton-excel" ></i>
+  </div>
+  <div class="valores-delos-ingresos">
+    <!-- Títulos de las columnas -->
+    <ul>
+      <li>
+        <span class="fecha">
+          <strong>
+            <div class="contenedor-ordenar-fecha">
+              <button class="ordenar-btn" (click)="toggleOrderByDate()">
+                <i [ngClass]="orderByDate === 'asc' ? 'fa-solid fa-arrow-up-wide-short' : 'fa-solid fa-arrow-down-wide-short'"></i>
+              </button>
+            </div>
+            Fecha
+          </strong>
+        </span>
+        <span class="concepto"><strong>Concepto</strong></span>
+        <span class="monto"><strong> <div class="contenedor-ordenar">
+          <button class="ordenar-btn" (click)="toggleOrder()">
+            <i [ngClass]="orderBy === 'asc' ? 'fa-solid fa-arrow-up-wide-short' : 'fa-solid fa-arrow-down-wide-short'"></i>
+          </button>
+        </div> Monto</strong></span>
+      </li>
+      <!-- Datos de ingresos -->
+      <li *ngFor="let income of filteredGastos; let i = index">
+        <span class="fecha">
+          <div class="icono-circulo">
+            <i
+            class="fa-regular fa-circle icono-botonCirculo"
+            [ngClass]="{'seleccionado': selectedGastos.includes(i)}"
+            (click)="toggleIncomeSelection(i)">
+            </i>
+          </div>
+          {{ income.fecha }}
+        </span>
+        <span class="concepto"><div *ngIf="editingGastoIndex === i"><input
+          [(ngModel)]="income.concepto"
+          class="input-editar"
+          type="text"
+        /></div><div *ngIf="editingGastoIndex !== i">{{ income.concepto }}</div></span>
+        <span class="monto"><div *ngIf="editingGastoIndex === i">
+          <input
+            [(ngModel)]="income.monto"
+            class="input-editar"
+            type="number"
+          />
+        </div><div *ngIf="editingGastoIndex !== i">{{ income.monto | currency }}</div> <div class="icono-editar"><i class="fa-regular fa-pen-to-square icono-botonEditar" *ngIf="editingGastoIndex !== i"
+          (click)="editIncome(i)"></i></div>
+          <div class="boton-guardar-al-editar">
+            <i class="fa-regular fa-floppy-disk icono-botonGuardar"
+            *ngIf="editingGastoIndex === i"
+            (click)="saveEditedIncome(i)">
+            </i>
+          </div>
+          <div class="icono-borrar"><i class="fa-solid fa-trash-can icono-botonBorrar" (click)="deleteGasto(i)"></i></div></span>
+      </li>
+    </ul>
+    <div class="total-ingresos">
+      <p><strong>Total de ingresos: {{ totalIngresos | currency:'USD':'symbol' }}</strong></p>
+    </div>
+  </div>
