@@ -18,7 +18,7 @@ export class GastosService {
 
 
   constructor(private http: HttpClient) { }
-  saveIncome(income: Gastos): Observable<Gastos> {
+  saveGasto(income: Gastos): Observable<Gastos> {
       return this.http.post<Gastos>(this.apiUrl, income);
   }
   getGastos(): Observable<Gastos[]> {

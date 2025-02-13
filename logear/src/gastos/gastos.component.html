@@ -22,21 +22,21 @@
 </div>
 <br>
 <div class="contenedor-boton-mas">
-  <i class="fa-solid fa-circle-plus icono-mas" (click)="toggleNewIncomeForm()"></i>
+  <i class="fa-solid fa-circle-plus icono-mas" (click)="toggleNewGastoForm()"></i>
 </div>
 <div *ngIf="showNewIncomeForm" class="registro-nuevo">
-  <h4>Registro de Ingreso</h4>
+  <h4>Registro de Gasto</h4>
   <div class="lista-ingresos">
     <label class="label-concepIng" for="fech">Fecha:</label>
     <input id="fech" [(ngModel)]="gastoFecha" type="date" />
 
-    <label class="label-concepIng" for="concept">Concepto de Ingreso:</label>
+    <label class="label-concepIng" for="concept">Concepto de Gasto:</label>
     <input id="concept" [(ngModel)]="gastoConcept" type="text" />
 
     <label class="label-cantidad" for="amount">Monto:</label>
     <input id="amount" [(ngModel)]="cantidadGasto" type="number" />
 
-    <button class="icono-guardar" (click)="saveIncome()"><i class="fa-regular fa-floppy-disk"></i></button>
+    <button class="icono-guardar" (click)="saveGasto()"><i class="fa-regular fa-floppy-disk"></i></button>
   </div>
 </div>
   <h4>Lista de gastos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
@@ -44,7 +44,7 @@
     <i class="fa-solid fa-trash-can icono-botonBorrar" (click)="deleteSelectedGastos()"></i>
   </div>
   <div class="contenedor-boton-exportar">
-    <i class="fa-solid fa-file-excel boton-excel" ></i>
+    <i class="fa-solid fa-file-excel boton-excel" (click)="exportToExcel()"></i>
   </div>
   <div class="valores-delos-ingresos">
     <!-- Títulos de las columnas -->
@@ -74,7 +74,7 @@
             <i
             class="fa-regular fa-circle icono-botonCirculo"
             [ngClass]="{'seleccionado': selectedGastos.includes(i)}"
-            (click)="toggleIncomeSelection(i)">
+            (click)="toggleGastoSelection(i)">
             </i>
           </div>
           {{ income.fecha }}
@@ -91,17 +91,19 @@
             type="number"
           />
         </div><div *ngIf="editingGastoIndex !== i">{{ income.monto | currency }}</div> <div class="icono-editar"><i class="fa-regular fa-pen-to-square icono-botonEditar" *ngIf="editingGastoIndex !== i"
-          (click)="editIncome(i)"></i></div>
+          (click)="editGasto(i)"></i></div>
           <div class="boton-guardar-al-editar">
             <i class="fa-regular fa-floppy-disk icono-botonGuardar"
             *ngIf="editingGastoIndex === i"
-            (click)="saveEditedIncome(i)">
+            (click)="saveEditedGasto(i)">
             </i>
           </div>
           <div class="icono-borrar"><i class="fa-solid fa-trash-can icono-botonBorrar" (click)="deleteGasto(i)"></i></div></span>
       </li>
     </ul>
     <div class="total-ingresos">
-      <p><strong>Total de ingresos: {{ totalIngresos | currency:'USD':'symbol' }}</strong></p>
+      <p><strong>Total de ingresos: {{ totalGastos | currency:'USD':'symbol' }}</strong></p>
     </div>
   </div>
+  <h2 class="titulo-grafico">Gráfico de Crecimiento de Ingresos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h2>
+  <canvas id="ingresosChart"></canvas>

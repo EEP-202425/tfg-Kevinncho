@@ -59,8 +59,8 @@
     {
       "id": "142f",
       "fecha": "2025-01-09",
-      "concepto": "Beca estudiantiles",
-      "monto": 3000
+      "concepto": "Beca estudiantil",
+      "monto": 2000
     },
     {
       "id": "4aa8",
@@ -166,6 +166,41 @@
     }
   ],
   "gastos": [
-    
+    {
+      "id": "a365",
+      "fecha": "2025-02-12",
+      "concepto": "Impuestos",
+      "monto": 75
+    },
+    {
+      "id": "db61",
+      "fecha": "2025-02-19",
+      "concepto": "Comida",
+      "monto": 300
+    },
+    {
+      "id": "46d4",
+      "fecha": "2025-02-25",
+      "concepto": "Luz y agua",
+      "monto": 90
+    },
+    {
+      "id": "a9a6",
+      "fecha": "2025-04-10",
+      "concepto": "Dulces",
+      "monto": 220
+    },
+    {
+      "id": "1d33",
+      "fecha": "2025-02-24",
+      "concepto": "Reparaciones del Carro",
+      "monto": 500
+    },
+    {
+      "id": "2ffe",
+      "fecha": "2025-02-05",
+      "concepto": "Salida",
+      "monto": 230
+    }
   ]
 }

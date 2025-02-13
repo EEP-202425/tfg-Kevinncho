@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GastosService } from './gastos.service';
-
+import * as ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
+import { Chart, ChartData, ChartOptions } from 'chart.js';
 @Component({
   selector: 'app-gastos',
   standalone: true,
@@ -21,12 +23,15 @@ export class GastosComponent {
   filteredGastos: any[] = [];
   selectedGastos: number[] = [];
   editingGastoIndex: number | null = null;
-  totalIngresos: number = 0;
+  totalGastos: number = 0;
 
 
 
   orderBy: string = "null";
   orderByDate: string = "null"; // Orden de la fecha
+  chart: any;
+  gastosPorDia: { [key: string]: number } = {};
+
 
 
   months = [
@@ -50,6 +55,11 @@ export class GastosComponent {
   showNewIncomeForm: boolean = false;
 
   constructor(private gastosService: GastosService){}
+  ngOnInit() {
+    this.updateDays();
+    this.loadGastos();
+    this.updateChart();
+  }
 
   updateDays() {
     const daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
@@ -71,19 +81,18 @@ export class GastosComponent {
     } else {
       // Filtro por mes y año
       const selectedMonth = `${formattedYear}-${formattedMonth}`;
-
       // Eliminamos las comillas escapadas y espacios en blanco antes de hacer la comparación
       this.filteredGastos = this.gastos.filter(gastos => gastos.fecha.replace(/\"/g, '').trim().startsWith(selectedMonth));
-      //this.updateChart();
+      this.updateChart();
     }
 
-    this.totalIngresos = this.filteredGastos.reduce((sum, income) => sum + income.monto, 0);
+    this.totalGastos = this.filteredGastos.reduce((sum, income) => sum + income.monto, 0);
     this.sortByAmount();
-    //this.sortByDate();
+    this.sortByDate();
 
 }
 
-toggleNewIncomeForm() {
+toggleNewGastoForm() {
   this.showNewIncomeForm = !this.showNewIncomeForm;
 }
 resetForm() {
@@ -92,7 +101,7 @@ resetForm() {
   this.cantidadGasto = 0;
 }
 
-saveIncome() {
+saveGasto() {
   const formattedDate = new Date(this.gastoFecha).toISOString().split('T')[0];
 
   if (this.gastoFecha && this.gastoConcept && this.cantidadGasto > 0) {
@@ -102,8 +111,8 @@ saveIncome() {
       monto: this.cantidadGasto,
     };
 
-    this.gastosService.saveIncome(newIncome).subscribe((savedIncome) => {
-      this.gastos.push(savedIncome);
+    this.gastosService.saveGasto(newIncome).subscribe((savedGasto) => {
+      this.gastos.push(savedGasto);
       this.filterGastos();
       this.loadGastos();
       this.resetForm(); // Limpiar formulario después de guardar
@@ -118,7 +127,19 @@ loadGastos() {
     this.gastos = data; // Asegúrate de que sea un arreglo
     this.filterGastos();
   });
+  this.generarGrafico();
+  this.procesarGastos();
 
+}
+procesarGastos() {
+  this.gastosPorDia = {};
+  this.totalGastos = 0;
+
+  this.filteredGastos.forEach((gastos) => {
+    const fecha = gastos.fecha.split('T')[0]; // Formato YYYY-MM-DD
+    this.gastosPorDia[fecha] = (this.gastosPorDia[fecha] || 0) + gastos.monto;
+    this.totalGastos += gastos.monto;
+  });
 }
 toggleOrder() {
   this.orderBy = this.orderBy === "asc" ? "desc" : "asc";
@@ -144,7 +165,7 @@ sortByDate() {
       : new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
 }
-toggleIncomeSelection(incomeIndex: number) {
+toggleGastoSelection(incomeIndex: number) {
   const selectedIndex  = this.selectedGastos.indexOf(incomeIndex);
   if (selectedIndex  === -1) {
     this.selectedGastos.push(incomeIndex);
@@ -152,7 +173,7 @@ toggleIncomeSelection(incomeIndex: number) {
     this.selectedGastos.splice(selectedIndex , 1);
   }
 }
-saveEditedIncome(incomeIndex: number) {
+saveEditedGasto(incomeIndex: number) {
   const editedGastos = this.filteredGastos[incomeIndex];
 
   if (editedGastos.concepto.trim() && editedGastos.monto > 0) {
@@ -164,7 +185,7 @@ saveEditedIncome(incomeIndex: number) {
     alert('Por favor, completa todos los campos correctamente.');
   }
 }
-editIncome(incomeIndex: number) {
+editGasto(incomeIndex: number) {
   this.editingGastoIndex = incomeIndex;
 }
 deleteGasto(incomeIndex: number) {
@@ -201,5 +222,160 @@ deleteSelectedGastos() {
     });
   }
 }
+exportToExcel() {
+    // Crear un nuevo libro de trabajo
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Gastos');
+
+    // Definir columnas
+    worksheet.columns = [
+      { header: 'Fecha', key: 'fecha', width: 15 },
+      { header: 'Concepto', key: 'concepto', width: 30 },
+      { header: 'Monto', key: 'monto', width: 15 },
+    ];
+
+    // Añadir datos a la hoja
+    this.filteredGastos.forEach((gastos) => {
+      worksheet.addRow({
+        fecha: gastos.fecha,
+        concepto: gastos.concepto,
+        monto: gastos.monto,
+      });
+    });
+
+    // Calcular total de ingresos y añadirlo al final
+    const total = this.filteredGastos.reduce((sum, gastos) => sum + gastos.monto, 0);
+    const totalRow = worksheet.addRow({ fecha: 'Total', concepto: '', monto: total });
+
+    // Estilos para los encabezados
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }; // Blanco
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF305496' },
+      };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    });
+      // Estilo alternado para filas (zebra striping)
+  worksheet.eachRow((row, rowIndex) => {
+    if (rowIndex > 1) {
+      const isEven = rowIndex % 2 === 0;
+      row.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: isEven ? 'FFD9E2F3' : 'FFFFFFFF' }, // Azul claro y blanco
+        };
+        cell.alignment = { horizontal: 'left', vertical: 'middle' };
+      });
+    }
+  });
+
+    // Estilos para la fila de totales
+    totalRow.eachCell((cell) => {
+      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }; // Blanco
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF305496' },
+      };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    });
+
+    // Añadir bordes a todas las celdas
+    worksheet.eachRow((row) => {
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
+     // Centrar la columna "Monto"
+  worksheet.getColumn('monto').eachCell((cell) => {
+    cell.alignment = { horizontal: 'center', vertical: 'middle' };
+  });
+
+
+    // Generar el archivo Excel
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const blob = new Blob([buffer], { type: 'application/octet-stream' });
+      saveAs(blob, 'Gastos.xlsx');
+    });
+  }
+  updateChart() {
+    if (this.chart) {
+      this.chart.destroy(); // Destruir el gráfico anterior
+    }
+
+    const ingresosPorDia = this.filteredGastos.reduce((acc, gastos) => {
+      const dia = new Date(gastos.fecha).getDate();
+      acc[dia] = (acc[dia] || 0) + gastos.monto;
+      return acc;
+    }, {});
+
+    const dias = Object.keys(ingresosPorDia).map(dia => Number(dia)).sort((a, b) => a - b);
+    const montos = dias.map(dia => ingresosPorDia[dia]);
+
+    const ctx = document.getElementById('ingresosChart') as HTMLCanvasElement;
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dias, // Eje X con días del mes
+        datasets: [{
+          label: `Ingresos de ${this.months[this.selectedMonth - 1]?.name} ${this.selectedYear}`,
+          data: montos,
+          borderColor: 'red',
+          backgroundColor: 'rgba(255, 0, 0, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: { title: { display: true, text: 'Días del mes' } },
+          y: { title: { display: true, text: 'Ingresos ($)' } }
+        }
+      }
+    });
+  }
+  generarGrafico() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    const fechas = Object.keys(this.gastosPorDia).sort();
+    const montosAcumulados = fechas.reduce((acc, fecha, index) => {
+      acc.push((acc[index - 1] || 0) + this.gastosPorDia[fecha]);
+      return acc;
+    }, [] as number[]);
+
+    const ctx = document.getElementById('ingresosChart') as HTMLCanvasElement;
+    this.chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: fechas,
+        datasets: [{
+          label: 'Crecimiento de Ingresos',
+          data: montosAcumulados,
+          borderColor: 'blue',
+          backgroundColor: 'rgba(255, 0, 0, 0.2)',
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        }
+      }
+    });
+  }
 
 }
