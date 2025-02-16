@@ -125,8 +125,8 @@ export class ListaIngresosComponent {
         datasets: [{
           label: 'Crecimiento de Ingresos',
           data: montosAcumulados,
-          borderColor: 'blue',
-          backgroundColor: 'rgba(0, 123, 255, 0.2)',
+          borderColor: 'green',
+          backgroundColor: 'rgba(20, 253, 94, 0.2)',
           fill: true
         }]
       },
@@ -359,8 +359,8 @@ toggleNewIncomeForm() {
         datasets: [{
           label: `Ingresos de ${this.months[this.selectedMonth - 1]?.name} ${this.selectedYear}`,
           data: montos,
-          borderColor: 'blue',
-          backgroundColor: 'rgba(0, 0, 255, 0.2)',
+          borderColor: 'green',
+          backgroundColor: 'rgba(0, 254, 102, 0.2)',
           fill: true
         }]
       },

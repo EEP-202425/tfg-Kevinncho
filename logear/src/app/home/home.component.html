@@ -1,2 +1,128 @@
 <app-header></app-header>
-<app-footer></app-footer>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="contenedor-fecha-buscar">
+  <!-- Selector de Mes -->
+  <label class="mes-label" for="month">Mes:</label>
+  <select class="select-mes" id="month" [(ngModel)]="selectedMonth" (change)="updateDays()">
+    <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+  </select>
+  <!-- Selector de Año -->
+  <label for="year" class="año-label">Año:</label>
+  <select id="year" class="año-select" [(ngModel)]="selectedYear" (change)="updateDays()">
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
+
+  <!-- Selector de Día -->
+  <label for="day" class="label-dia">Día:</label>
+  <select id="day" class="select-dia" [(ngModel)]="selectedDay">
+    <option [ngValue]="null">Todos los días</option>
+    <option *ngFor="let day of days" [ngValue]="day">{{ day }}</option>
+  </select>
+  <i class="fa-solid fa-magnifying-glass icono-buscar" (click)="filterTransacciones()"></i>
+</div>
+<br>
+<div class="contenedor-boton-mas">
+  <i class="fa-solid fa-circle-plus icono-mas" (click)="toggleNewTransactionForm()"></i>
+</div>
+<div *ngIf="showNewTransactionForm" class="registro-nuevo">
+  <h4>Registro de Transacción</h4>
+  <div class="lista-ingresos">
+    <label class="label-concepIng" for="fech">Fecha:</label>
+    <input id="fech" [(ngModel)]="transactionDate" type="date" />
+
+    <label class="label-concepIng" for="concept">Concepto de Transacción:</label>
+    <input id="concept" [(ngModel)]="transactionConcept" type="text" />
+
+    <label class="label-cantidad" for="amount">Monto:</label>
+    <input id="amount" [(ngModel)]="transactionAmount" type="number" />
+
+    <label for="tipo">Tipo:</label>
+    <select id="tipo" [(ngModel)]="transactionType">
+      <option value="ingreso">Ingreso</option>
+      <option value="gasto">Gasto</option>
+    </select>
+
+    <button class="icono-guardar" (click)="saveTransaccion()">
+      <i class="fa-regular fa-floppy-disk"></i>
+    </button>
+  </div>
+</div>
+<h4>Lista de transacciones de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h4>
+<div class="botonBorrar-ingresos">
+  <i class="fa-solid fa-trash-can icono-botonBorrar" (click)="deleteSelectedTransacciones()"></i>
+</div>
+<div class="contenedor-boton-exportar">
+  <i class="fa-solid fa-file-excel boton-excel" (click)="exportToExcel()"></i>
+</div>
+<div class="valores-delos-ingresos">
+  <!-- Títulos de las columnas -->
+  <ul>
+    <li>
+      <span class="fecha">
+        <strong>
+          <div class="contenedor-ordenar-fecha">
+            <button class="ordenar-btn" (click)="toggleOrderByDate()">
+              <i [ngClass]="orderByDate === 'asc' ? 'fa-solid fa-arrow-up-wide-short' : 'fa-solid fa-arrow-down-wide-short'"></i>
+            </button>
+          </div>
+          Fecha
+        </strong>
+      </span>
+      <span class="concepto"><strong>Concepto</strong></span>
+      <span class="monto">
+        <strong>
+          <div class="contenedor-ordenar">
+            <button class="ordenar-btn" (click)="toggleOrder()">
+              <i [ngClass]="orderBy === 'asc' ? 'fa-solid fa-arrow-up-wide-short' : 'fa-solid fa-arrow-down-wide-short'"></i>
+            </button>
+          </div>
+          Monto
+        </strong>
+      </span>
+    </li>
+    <!-- Datos de transacciones -->
+    <li *ngFor="let transaccion of filteredTransacciones; let i = index">
+      <span class="fecha">
+        <div class="icono-circulo">
+          <i class="fa-regular fa-circle icono-botonCirculo" [ngClass]="{'seleccionado': selectedTransacciones.includes(i)}" (click)="toggleTransaccionSelection(i)">
+          </i>
+        </div>
+        {{ transaccion.fecha }}
+      </span>
+      <span class="concepto">
+        <div *ngIf="editingTransaccionIndex === i">
+          <input [(ngModel)]="transaccion.concepto" class="input-editar" type="text" />
+        </div>
+        <div *ngIf="editingTransaccionIndex !== i">
+          {{ transaccion.concepto }}
+        </div>
+      </span>
+      <span class="monto">
+        <div *ngIf="editingTransaccionIndex === i">
+          <input [(ngModel)]="transaccion.monto" class="input-editar" type="number" />
+        </div>
+        <div *ngIf="editingTransaccionIndex !== i">
+          {{ transaccion.monto | currency }}
+        </div>
+        <div class="icono-editar">
+          <i class="fa-regular fa-pen-to-square icono-botonEditar" *ngIf="editingTransaccionIndex !== i" (click)="editTransaccion(i)"></i>
+        </div>
+        <div class="boton-guardar-al-editar">
+          <i class="fa-regular fa-floppy-disk icono-botonGuardar" *ngIf="editingTransaccionIndex === i" (click)="saveEditedTransaccion(i)"></i>
+        </div>
+        <div class="icono-borrar">
+          <i class="fa-solid fa-trash-can icono-botonBorrar" (click)="deleteTransaccion(i)"></i>
+        </div>
+      </span>
+    </li>
+  </ul>
+  <div class="total-ingresos">
+    <p><strong>Total de transacciones: {{ totalTransacciones | currency:'USD':'symbol' }}</strong></p>
+  </div>
+</div>
+<!-- Nuevo gráfico: línea dual para Ingresos y Gastos -->
+<h2 class="titulo-grafico">Gráfico de Crecimiento de Ingresos y Gastos de {{ months[selectedMonth - 1]?.name }} del {{ selectedYear }}</h2>
+<canvas #lineChartCanvas id="transaccionesLineChart"></canvas>
+
+

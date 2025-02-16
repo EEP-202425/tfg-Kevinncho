@@ -165,16 +165,16 @@ sortByDate() {
       : new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
   );
 }
-toggleGastoSelection(incomeIndex: number) {
-  const selectedIndex  = this.selectedGastos.indexOf(incomeIndex);
+toggleGastoSelection(gastosIndex: number) {
+  const selectedIndex  = this.selectedGastos.indexOf(gastosIndex);
   if (selectedIndex  === -1) {
-    this.selectedGastos.push(incomeIndex);
+    this.selectedGastos.push(gastosIndex);
   } else {
     this.selectedGastos.splice(selectedIndex , 1);
   }
 }
-saveEditedGasto(incomeIndex: number) {
-  const editedGastos = this.filteredGastos[incomeIndex];
+saveEditedGasto(gastosIndex: number) {
+  const editedGastos = this.filteredGastos[gastosIndex];
 
   if (editedGastos.concepto.trim() && editedGastos.monto > 0) {
     this.gastosService.updateGastos(editedGastos).subscribe(() => {
@@ -185,11 +185,11 @@ saveEditedGasto(incomeIndex: number) {
     alert('Por favor, completa todos los campos correctamente.');
   }
 }
-editGasto(incomeIndex: number) {
-  this.editingGastoIndex = incomeIndex;
+editGasto(gastosIndex: number) {
+  this.editingGastoIndex = gastosIndex;
 }
-deleteGasto(incomeIndex: number) {
-  const gastosDelete = this.filteredGastos[incomeIndex];
+deleteGasto(gastosIndex: number) {
+  const gastosDelete = this.filteredGastos[gastosIndex];
 
   if (confirm(`¿Estás seguro de que deseas eliminar el ingreso con el concepto "${gastosDelete.concepto}"?`)) {
     this.gastosService.deleteGasto(gastosDelete.id).subscribe(() => {
@@ -326,7 +326,7 @@ exportToExcel() {
       data: {
         labels: dias, // Eje X con días del mes
         datasets: [{
-          label: `Ingresos de ${this.months[this.selectedMonth - 1]?.name} ${this.selectedYear}`,
+          label: `Gastos de ${this.months[this.selectedMonth - 1]?.name} ${this.selectedYear}`,
           data: montos,
           borderColor: 'red',
           backgroundColor: 'rgba(255, 0, 0, 0.2)',
@@ -353,13 +353,13 @@ exportToExcel() {
       return acc;
     }, [] as number[]);
 
-    const ctx = document.getElementById('ingresosChart') as HTMLCanvasElement;
+    const ctx = document.getElementById('gastosChart') as HTMLCanvasElement;
     this.chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: fechas,
         datasets: [{
-          label: 'Crecimiento de Ingresos',
+          label: 'Crecimiento de Gastos',
           data: montosAcumulados,
           borderColor: 'blue',
           backgroundColor: 'rgba(255, 0, 0, 0.2)',
