@@ -159,7 +159,6 @@ export class HomeComponent implements OnInit, AfterViewInit{
       this.transacciones = data;
       this.filterTransacciones();
     });
-    this.generarGrafico();
     this.procesarTransacciones();
 
   }
@@ -349,39 +348,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
 
 
 
-  generarGrafico() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
-    const fechas = Object.keys(this.transaccionesPorDia).sort();
-    const montosAcumulados = fechas.reduce((acc, fecha, index) => {
-      acc.push((acc[index - 1] || 0) + this.transaccionesPorDia[fecha]);
-      return acc;
-    }, [] as number[]);
-    const ctx = document.getElementById('transaccionesChart') as HTMLCanvasElement;
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: fechas,
-        datasets: [{
-          label: 'Crecimiento de Transacciones',
-          data: montosAcumulados,
-          borderColor: 'orange',
-          backgroundColor: 'rgba(255, 165, 0, 0.2)',
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
-          }
-        }
-      }
-    });
-  }
+
   ngAfterViewInit() {
     // Ahora que la vista está renderizada, se pueden crear los gráficos
     this.updateLineChart();
