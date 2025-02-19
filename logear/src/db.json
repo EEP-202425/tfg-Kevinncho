@@ -111,12 +111,6 @@
       "monto": 300
     },
     {
-      "id": "7593",
-      "fecha": "2025-02-01",
-      "concepto": "nosee",
-      "monto": 800
-    },
-    {
       "id": "96aa",
       "fecha": "2025-02-06",
       "concepto": "estudios",
@@ -127,12 +121,6 @@
       "fecha": "2025-02-20",
       "concepto": "Paga extra",
       "monto": 900
-    },
-    {
-      "id": "e6a2",
-      "fecha": "2025-02-28",
-      "concepto": "cpm",
-      "monto": 200
     },
     {
       "id": "8ad5",
@@ -199,8 +187,30 @@
     {
       "id": "2ffe",
       "fecha": "2025-02-05",
-      "concepto": "Salida",
-      "monto": 230
+      "concepto": "Salida al estadio",
+      "monto": 230,
+      "tipo": "gasto"
+    },
+    {
+      "id": "6756",
+      "fecha": "2025-02-28",
+      "concepto": "Viajes y Diestas",
+      "monto": 320,
+      "tipo": "gasto"
+    },
+    {
+      "id": "8829",
+      "fecha": "2025-01-15",
+      "concepto": "Vacaciones",
+      "monto": 750,
+      "tipo": "gasto"
+    },
+    {
+      "id": "eed6",
+      "fecha": "2025-01-04",
+      "concepto": "Regalos de Reyes",
+      "monto": 350,
+      "tipo": "gasto"
     }
   ]
 }

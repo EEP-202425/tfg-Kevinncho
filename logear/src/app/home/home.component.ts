@@ -276,47 +276,56 @@ export class HomeComponent implements OnInit, AfterViewInit{
       });
     });
 
-    const total = this.filteredTransacciones.reduce((sum, t) => sum + t.monto, 0);
-    const totalRow = worksheet.addRow({ fecha: 'Total', concepto: '', monto: total, tipo: '' });
+    // Calcular totales
+    const totalGastos = this.filteredTransacciones
+      .filter(t => t.tipo.toLowerCase() === 'gasto')
+      .reduce((sum, t) => sum + t.monto, 0);
+
+    const totalIngresos = this.filteredTransacciones
+      .filter(t => t.tipo.toLowerCase() === 'ingreso')
+      .reduce((sum, t) => sum + t.monto, 0);
+
+    const totalGeneral = totalIngresos - totalGastos;
+
+    // Agregar filas de totales
+    const totalGastosRow = worksheet.addRow({ fecha: 'Total Gastos', concepto: '', monto: totalGastos, tipo: '' });
+    const totalIngresosRow = worksheet.addRow({ fecha: 'Total Ingresos', concepto: '', monto: totalIngresos, tipo: '' });
+    const totalGeneralRow = worksheet.addRow({ fecha: 'Total General', concepto: '', monto: totalGeneral, tipo: '' });
 
     // Estilos para encabezados
     worksheet.getRow(1).eachCell((cell) => {
       cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FF305496' }
-      };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF305496' } };
       cell.alignment = { horizontal: 'center', vertical: 'middle' };
     });
 
-    // Zebra striping en filas
+    // Zebra striping en filas de datos
     worksheet.eachRow((row, rowIndex) => {
-      if (rowIndex > 1) {
+      if (rowIndex > 1 && rowIndex <= this.filteredTransacciones.length + 1) {
         const isEven = rowIndex % 2 === 0;
         row.eachCell((cell) => {
-          cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: isEven ? 'FFD9E2F3' : 'FFFFFFFF' }
-          };
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: isEven ? 'FFD9E2F3' : 'FFFFFFFF' } };
           cell.alignment = { horizontal: 'left', vertical: 'middle' };
         });
       }
     });
 
-    // Estilos para la fila total
-    totalRow.eachCell((cell) => {
-      cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FF305496' }
-      };
-      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    // Estilos para las filas de totales
+    [totalGastosRow, totalGeneralRow].forEach(row => {
+      row.eachCell((cell) => {
+        cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF305496' } };
+        cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      });
     });
+     // Estilos para la fila de Total Ingresos (fondo blanco, texto azul)
+  totalIngresosRow.eachCell((cell) => {
+    cell.font = { bold: true, color: { argb: 'FF305496' } }; // Texto azul
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFFFF' } }; // Fondo blanco
+    cell.alignment = { horizontal: 'center', vertical: 'middle' };
+  });
 
-    // Bordes a todas las celdas
+    // Bordes para todas las celdas
     worksheet.eachRow((row) => {
       row.eachCell((cell) => {
         cell.border = {
@@ -337,6 +346,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
       saveAs(blob, 'Transacciones.xlsx');
     });
   }
+
 
 
   generarGrafico() {
