@@ -117,8 +117,9 @@ export class HomeComponent implements OnInit, AfterViewInit{
       this.filteredTransacciones = this.transacciones.filter(t => t.fecha.replace(/\"/g, '').trim().startsWith(selectedMonth));
       this.updateLineChart();
     }
-    this.totalTransacciones = this.filteredTransacciones.reduce((sum, t) => sum + t.monto, 0);
-    this.sortByAmount();
+    this.totalTransacciones = this.filteredTransacciones.reduce((sum, t) => {
+      return t.tipo === 'ingreso' ? sum + t.monto : sum - t.monto;
+    }, 0);    this.sortByAmount();
     this.sortByDate();
   }
   toggleNewTransactionForm() {

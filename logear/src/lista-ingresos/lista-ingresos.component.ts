@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import {Chart, ChartData, ChartOptions  } from 'chart.js/auto';
+import { HeaderComponent } from '../header/header.component';
 @Component({
   selector: 'app-lista-ingresos',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule, HeaderComponent],
   templateUrl: './lista-ingresos.component.html',
   styleUrl: './lista-ingresos.component.css'
 })

@@ -5,10 +5,11 @@ import { GastosService } from './gastos.service';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
+import { HeaderComponent } from '../header/header.component';
 @Component({
   selector: 'app-gastos',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,HeaderComponent],
   templateUrl: './gastos.component.html',
   styleUrls: ['./gastos.component.css','../lista-ingresos/lista-ingresos.component.css']
 })
@@ -320,7 +321,7 @@ exportToExcel() {
     const dias = Object.keys(ingresosPorDia).map(dia => Number(dia)).sort((a, b) => a - b);
     const montos = dias.map(dia => ingresosPorDia[dia]);
 
-    const ctx = document.getElementById('ingresosChart') as HTMLCanvasElement;
+    const ctx = document.getElementById('gastosChart') as HTMLCanvasElement;
     this.chart = new Chart(ctx, {
       type: 'line',
       data: {
