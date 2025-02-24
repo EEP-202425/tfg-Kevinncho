@@ -108,7 +108,8 @@
       "id": "1d67",
       "fecha": "2025-02-01",
       "concepto": "SAN VALENTIN",
-      "monto": 300
+      "monto": 300,
+      "tipo": "ingreso"
     },
     {
       "id": "96aa",
