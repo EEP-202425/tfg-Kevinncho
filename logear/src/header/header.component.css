@@ -1,0 +1,151 @@
+html{
+	font-size: 62.5%;
+	box-sizing: border-box;/*hack para Box model*/
+	scroll-snap-type: y mandatory;
+  	margin: -20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+h1{
+	font-size: 2.8rem;
+  color: #fff;
+}
+@media (min-width: 480px) {
+	h1{
+		padding: 10px;
+
+	}
+}
+h1, h2,h3{
+	text-align: center;
+	padding: 9px;
+}
+.titulo span{
+	font-size: 1.5rem;
+}
+.nav-bg{
+	background: #2c2b3f;
+	margin: 0 0 -10px;
+	padding: 0 0 2px;
+}
+.nav-principal{
+	display: flex;
+	flex-direction: column;
+}
+@media (min-width:768px ){/*Adaptado para una tablet*/
+	.nav-principal{
+		flex-direction: row;
+		justify-content: space-between;
+    margin: -35px 0px -5px -20px;
+	}
+}
+nav ul{
+	list-style: none;
+}
+nav > ul{
+	display: table;
+	width: 100%;
+	background: #d08fe5;
+	position: relative;
+
+}
+
+
+nav > ul li {
+	display: table-cell;
+}
+nav ul li:hover > ul{
+	display: block;
+	height: 100%;
+
+}
+nav >ul li a{
+	color: #ffff;
+	display: block;
+	line-height: 20px;
+	padding: 20px;
+	position: relative;
+	text-align: center;
+}
+
+
+.nav-principal a{
+	display: block;
+	text-align: center;
+	color:#fff;
+	text-decoration: none;
+	font-size: 25px;
+	font-weight: 700;
+	padding: .9rem;
+}
+nav ul li a span{
+	background: #174459;
+	display: block;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	position: absolute;
+	top: -170px;
+
+}
+nav ul li a:hover span{
+	top:0;
+}
+nav > ul li a:hover {
+  background-color: #2c2b3f; /* Cambia el color de fondo */
+  color: #fff; /* Cambia el color del texto si es necesario */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Suaviza la transición */
+}
+
+.hero-container{
+  position: relative;
+  display: inline-block; /* Para ajustar el tamaño al contenido */
+  width: 100%; /* Ajusta el ancho al contenedor */
+}
+.hero-container img {
+  width: 100%; /* Imagen al 100% del ancho del contenedor */
+  height: 450px;
+  object-fit: cover; /* Ajuste de la imagen para que se vea bien */
+}
+.hero-container::before {
+  content: ""; /* Crea una capa superpuesta */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Color negro con transparencia */
+  z-index: 1; /* Coloca el overlay encima de la imagen */
+}
+.hero-text {
+  position: absolute; /* Posiciona el texto encima de la imagen */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta el centrado */
+  color: white; /* Texto blanco para contraste */
+  text-align: center;
+  z-index: 2; /* Asegura que el texto esté por encima */
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+.hero-text p {
+  font-size: 1.6rem;
+}
+
+.hero-text .btn {
+  padding: 10px 20px;
+  background-color: #d08fe5;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  font-weight: 1000px;
+}
+
+.hero-text .btn:hover {
+  background-color: #615366;
+}
+

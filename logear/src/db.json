@@ -1,0 +1,217 @@
+{
+  "users": [
+    {
+      "id": "15c2",
+      "email": "mateo1589@outlook.es",
+      "contrasena": "kevin2121"
+    },
+    {
+      "id": "d695",
+      "email": "ghg@1sxsx.com",
+      "contrasena": "pibe12"
+    },
+    {
+      "id": "946b",
+      "email": "stedex1111@gmail.yahoo",
+      "contrasena": "naranja"
+    },
+    {
+      "id": "19f8",
+      "email": "Paula@gmail.com",
+      "contrasena": "Sin12345"
+    },
+    {
+      "id": "d134",
+      "email": "prueba1@outlook.com",
+      "contrasena": "Sin123"
+    },
+    {
+      "id": "e702",
+      "email": "prueba2@outlook.com",
+      "contrasena": "123"
+    }
+  ],
+  "ingresos": [
+    {
+      "id": "f9fa",
+      "fecha": "2024-12-25",
+      "concepto": "Bono de navidad",
+      "monto": 200
+    },
+    {
+      "id": "b3f3",
+      "fecha": "2024-12-25",
+      "concepto": "Paga de trabajo",
+      "monto": 1200
+    },
+    {
+      "id": "efbb",
+      "fecha": "2025-03-31",
+      "concepto": "Paga extra",
+      "monto": 500
+    },
+    {
+      "id": "a4cf",
+      "fecha": "2024-12-25",
+      "concepto": "Horas Extra",
+      "monto": 200
+    },
+    {
+      "id": "142f",
+      "fecha": "2025-01-09",
+      "concepto": "Beca estudiantil",
+      "monto": 2000
+    },
+    {
+      "id": "4aa8",
+      "fecha": "2025-01-16",
+      "concepto": "Paga extra",
+      "monto": 400
+    },
+    {
+      "id": "f545",
+      "fecha": "2025-01-09",
+      "concepto": "Bonificacion",
+      "monto": 280
+    },
+    {
+      "id": "e9fe",
+      "fecha": "2025-01-09",
+      "concepto": "Intereses",
+      "monto": 920
+    },
+    {
+      "id": "cb55",
+      "fecha": "2025-01-16",
+      "concepto": "Alquileres",
+      "monto": 500
+    },
+    {
+      "id": "9ada",
+      "fecha": "2025-01-09",
+      "concepto": "Salario Mensual",
+      "monto": 1200
+    },
+    {
+      "id": "e1eb",
+      "fecha": "2025-01-01",
+      "concepto": "Bono Año nuevo",
+      "monto": 450
+    },
+    {
+      "id": "55df",
+      "fecha": "2025-01-14",
+      "concepto": "Apuestas casino",
+      "monto": 350
+    },
+    {
+      "id": "1d67",
+      "fecha": "2025-02-01",
+      "concepto": "SAN VALENTIN",
+      "monto": 300,
+      "tipo": "ingreso"
+    },
+    {
+      "id": "96aa",
+      "fecha": "2025-02-06",
+      "concepto": "estudios",
+      "monto": 220
+    },
+    {
+      "id": "a399",
+      "fecha": "2025-02-20",
+      "concepto": "Paga extra",
+      "monto": 900
+    },
+    {
+      "id": "8ad5",
+      "fecha": "2024-12-12",
+      "concepto": "Ayuda Social",
+      "monto": 340
+    },
+    {
+      "id": "d8c0",
+      "fecha": "2024-12-30",
+      "concepto": "Bono empresarial",
+      "monto": 70
+    },
+    {
+      "id": "8e92",
+      "fecha": "2024-12-31",
+      "concepto": "Estudios",
+      "monto": 1200
+    },
+    {
+      "id": "4dbd",
+      "fecha": "2024-12-02",
+      "concepto": "Alquiler",
+      "monto": 700
+    },
+    {
+      "id": "f3d2",
+      "fecha": "2024-12-27",
+      "concepto": "Venta garaje",
+      "monto": 50
+    }
+  ],
+  "gastos": [
+    {
+      "id": "a365",
+      "fecha": "2025-02-12",
+      "concepto": "Impuestos",
+      "monto": 75
+    },
+    {
+      "id": "db61",
+      "fecha": "2025-02-19",
+      "concepto": "Comida",
+      "monto": 300
+    },
+    {
+      "id": "46d4",
+      "fecha": "2025-02-25",
+      "concepto": "Luz y agua",
+      "monto": 90
+    },
+    {
+      "id": "a9a6",
+      "fecha": "2025-04-10",
+      "concepto": "Dulces",
+      "monto": 220
+    },
+    {
+      "id": "1d33",
+      "fecha": "2025-02-24",
+      "concepto": "Reparaciones del Carro",
+      "monto": 500
+    },
+    {
+      "id": "2ffe",
+      "fecha": "2025-02-05",
+      "concepto": "Salida al estadio",
+      "monto": 230,
+      "tipo": "gasto"
+    },
+    {
+      "id": "6756",
+      "fecha": "2025-02-28",
+      "concepto": "Viajes y Diestas",
+      "monto": 320,
+      "tipo": "gasto"
+    },
+    {
+      "id": "8829",
+      "fecha": "2025-01-15",
+      "concepto": "Vacaciones",
+      "monto": 750,
+      "tipo": "gasto"
+    },
+    {
+      "id": "eed6",
+      "fecha": "2025-01-04",
+      "concepto": "Regalos de Reyes",
+      "monto": 350,
+      "tipo": "gasto"
+    }
+  ]
+}

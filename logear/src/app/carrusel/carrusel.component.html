@@ -1,0 +1,9 @@
+<div class="carousel-container">
+  <div class="carousel-wrapper" [style.transform]="'translateX(' + translateX + 'px)'">
+    <div class="carousel-item" *ngFor="let image of images">
+      <img [src]="image" alt="Carousel image">
+    </div>
+  </div>
+  <button class="carousel-btn prev" (click)="prevSlide()">&#10094;</button>
+  <button class="carousel-btn next" (click)="nextSlide()">&#10095;</button>
+</div>
