@@ -18,68 +18,74 @@ interface User{
   providedIn: "root",
 })
 export class UsersService {
-  private usersUrl = 'http://localhost:3000/users';
+  //private usersUrl = 'http://localhost:3000/users';
+  private usersUrl = 'http://localhost:8080/auth'; // URL de la API de Spring Boot
   private tokenKey = 'authToken';
   constructor(private http: HttpClient, private router: Router ) {}
 
   registrer(usuarios: { email: string; contrasena: string, confirmcontrasena: string }): Observable<any> {
     if(!usuarios.email || !usuarios.contrasena || !usuarios.confirmcontrasena){
-      return throwError(()=> new Error('Todos los campos son obligatorios.'));
+      return throwError(() => new Error('Todos los campos son obligatorios.'));
     }
     if(usuarios.contrasena !== usuarios.confirmcontrasena){
-      return throwError(()=> new Error('Las contraseñas no coinciden'));
+      return throwError(() => new Error('Las contraseñas no coinciden'));
     }
-    return this.http.post<any>(this.usersUrl, {email: usuarios.email,contrasena: usuarios.contrasena    }).pipe(
+    return this.http.post<any>(`${this.usersUrl}/register`, { email: usuarios.email, contrasena: usuarios.contrasena }, { responseType: 'text' as 'json' }).pipe(
       catchError(error => {
-        const mensajeErr = 'Error al intentar registrar el usuario.';
-        console.error(mensajeErr, error);
-        return throwError(() => new Error(mensajeErr));
-      })
-    );
-  }
-
+        let mensajeErr = 'Error al intentar registrar el usuario.';
+      // Si el error es 400 y el mensaje indica que el usuario ya existe
+      if (error.status === 400 && error.error && typeof error.error === 'string' && error.error.includes("ya existe")) {
+        mensajeErr = 'El usuario ya existe.';
+      }
+      console.error(mensajeErr, error);
+      return throwError(() => new Error(mensajeErr));
+    })
+  );
+}
   login(usuario: { email: string; contrasena: string }): Observable<any> {
     if(!usuario.email || !usuario.contrasena){
       return throwError(()=> new Error('Ingrese su correo y contraseña, por favor.'));
     }
-    return this.http.get<any[]>(this.usersUrl).pipe(
-      map(usuarios =>{
-        const encontrarUsuarios= usuarios.find(u => u.email === usuario.email && u.contrasena === usuario.contrasena);
-      if(encontrarUsuarios){
-        return true;
-      }else{
-        throw new Error('Usuario o contraseña incorrectos')
-      }
+    return this.http.post<{ token: string }>(`${this.usersUrl}/login`, usuario).pipe(
+      tap(response => {
+        this.setToken(response.token); // Guardar el token en localStorage
       }),
-      catchError( error=> {
-        console.error(error.message);
-        return throwError(() => new Error(error.message));
+      catchError(error => {
+        console.error('Error en el login:', error);
+        return throwError(() => new Error('Usuario o contraseña incorrectos.'));
       })
     );
+  }
+/** ALMACENAR TOKEN */
+setToken(token: string): void {
+  localStorage.setItem(this.tokenKey, token);
+  console.log("Token guardado en localStorage:", token);
+}
 
-  }
-  setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token); // Almacena el token en localStorage
-    console.log("Guardando el token en localStorage", token)
-    console.log("Verificación inmediata:", localStorage.getItem(this.tokenKey));
-  }
+/** OBTENER TOKEN */
+getToken(): string | null {
+  return localStorage.getItem(this.tokenKey);
+}
 
-  getToken(): string | null {
-    return localStorage.getItem('authToken'); // Recupera el token de localStorage
+/** VERIFICAR SI EL USUARIO ESTÁ AUTENTICADO */
+isAuthenticated(): boolean {
+  const token = this.getToken();
+  if (!token) {
+    return false;
   }
-   isAuthenticated(): boolean {
-    const token = this.getToken();
-    if(!token){
-      return false;
-    }
-    const payload= JSON.parse(atob(token.split('.')[1]));
-    const exp= payload.exp* 1000;
-    return Date.now() < exp;
-   }
-   logout(): void{
-    localStorage.removeItem(this.tokenKey);
-    this.router.navigate(['/login']);
-   }
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return Date.now() < payload.exp * 1000; // Comparar la fecha de expiración
+  } catch (e) {
+    return false;
+  }
+}
+
+/** CERRAR SESIÓN */
+logout(): void {
+  localStorage.removeItem(this.tokenKey);
+  this.router.navigate(['/login']);
+}
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl).pipe( // Usar la URL correcta
       catchError(error => {
