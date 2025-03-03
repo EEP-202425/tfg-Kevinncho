@@ -1,6 +1,7 @@
 package com.gestion_gastos.entidades;
-import jakarta.persistence.*; 
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
+@Data
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -27,6 +28,13 @@ public class Usuario {
 	private String email;
 	
 
+	
+	public Usuario(String contrasena,
+			@NotBlank(message = "El email no puede estar vacío") @Email(message = "Debe proporcionar un email válido") String email) {
+		this.contrasena = contrasena;
+		this.email = email;
+	}
+	
 	
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true) 
 	@JsonIgnore
