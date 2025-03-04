@@ -15,10 +15,7 @@ public class TransaccionService {
     @Autowired
     private TransaccionRepository transaccionRepository;
 
-    public List<Transaccion> obtenerTransaccionesPorUsuario(Usuario usuario) {
-        return transaccionRepository.findByUsuario(usuario);
-    }
-
+    
     public Transaccion guardarTransaccion(Transaccion transaccion) {
         return transaccionRepository.save(transaccion);
     }
@@ -35,5 +32,8 @@ public class TransaccionService {
             t.setTipo(nuevaTransaccion.getTipo());
             return transaccionRepository.save(t);
         }).orElseThrow(() -> new RuntimeException("Transacción no encontrada"));
+    }
+    public List<Transaccion> obtenerTransaccionesPorEmail(String email) {
+        return transaccionRepository.findByUsuarioEmail(email); // Suponiendo que tienes este método en el repositorio
     }
 }

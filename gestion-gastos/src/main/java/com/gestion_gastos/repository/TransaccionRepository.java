@@ -10,5 +10,8 @@ import com.gestion_gastos.entidades.Usuario;
 
 @Repository
 public interface TransaccionRepository extends JpaRepository<Transaccion, Long> {
-    List<Transaccion> findByUsuario(Usuario usuario);
+    
+ // Método para buscar transacciones por el email del usuario
+    List<Transaccion> findByUsuarioEmail(String email);
+    
 }
