@@ -23,106 +23,79 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "transaciones")
 public class Transaccion {
-
-	@OneToMany(mappedBy = "transaccion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
-	private Set<Gasto> gastos = new HashSet<>();
 	
-	@OneToMany(mappedBy = "transaccion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
-	private Set<Gasto> ingresos = new HashSet<>();
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long transaccionId;
+    private Long transaccionId;
 
-	@Column(length = 250, nullable = false)
-	private String descripcion;
+    @Column(length = 250, nullable = false)
+    private String descripcion;
 
-	@Column(nullable = false)
-	private double monto;
+    @Column(nullable = false)
+    private double monto;
 
-	@Column(nullable = false)
-	private LocalDate fecha;
+    @Column(nullable = false)
+    private LocalDate fecha;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)  // Guarda como "GASTO" o "INGRESO"
-	private TipoTransaccion tipo;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)  // Guarda como "GASTO" o "INGRESO"
+    private TipoTransaccion tipo;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "usuarioId", nullable = false)
+    private Usuario usuario;
 
-	public TipoTransaccion getTipo() {
-		return tipo;
-	}
+    // Getters y Setters
+    public Long getTransaccionId() {
+        return transaccionId;
+    }
 
-	public void setTipo(TipoTransaccion tipo) {
-		this.tipo = tipo;
-	}
+    public void setTransaccionId(Long transaccionId) {
+        this.transaccionId = transaccionId;
+    }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
 
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "usuarioId", nullable = false)
-	private Usuario usuario;
+    public double getMonto() {
+        return monto;
+    }
 
-	public Set<Gasto> getGastos() {
-		return gastos;
-	}
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
 
-	public void setGastos(Set<Gasto> gastos) {
-		this.gastos = gastos;
-	}
+    public LocalDate getFecha() {
+        return fecha;
+    }
 
-	public Set<Gasto> getIngresos() {
-		return ingresos;
-	}
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
-	public void setIngresos(Set<Gasto> ingresos) {
-		this.ingresos = ingresos;
-	}
+    public TipoTransaccion getTipo() {
+        return tipo;
+    }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+    public void setTipo(TipoTransaccion tipo) {
+        this.tipo = tipo;
+    }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public double getMonto() {
-		return monto;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setMonto(double monto) {
-		this.monto = monto;
-	}
-
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Long getTransaccionId() {
-		return transaccionId;
-	}
-
-	public void setTransaccionId(Long transaccionId) {
-		this.transaccionId = transaccionId;
-	}
-
-	
-
-	public Transaccion() {
-	}
+    public Transaccion() {
+    }
 
 }

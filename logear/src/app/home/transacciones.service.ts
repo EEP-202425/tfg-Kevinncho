@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
-import { map } from 'rxjs';
+import { map, throwError, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 interface Gasto {
   id?: number;
   fecha: string;
@@ -28,60 +29,68 @@ export interface Transaccion {
 })
 export class TransaccionesService {
 
-  private ingresosUrl = 'http://localhost:3000/ingresos';
-  private gastosUrl = 'http://localhost:3000/gastos';
+  //private ingresosUrl = 'http://localhost:3000/ingresos';
+  //private gastosUrl = 'http://localhost:3000/gastos';
+
+  // URL unificada para todas las transacciones en Spring Boot
+  private transaccionesUrl = 'http://localhost:8080/transacciones';
+
 
   constructor(private http: HttpClient) {}
 
   // Guarda una transacción en el endpoint correspondiente según su tipo
-  saveTransaccion(transaccion: Transaccion): Observable<Transaccion> {
-    if (transaccion.tipo === 'ingreso') {
-      return this.http.post<Transaccion>(this.ingresosUrl, transaccion);
-    } else {
-      return this.http.post<Transaccion>(this.gastosUrl, transaccion);
-    }
-  }
-
-  // Obtiene todas las transacciones (ingresos y gastos) en un solo arreglo
-  getTransacciones(): Observable<Transaccion[]> {
-    return forkJoin({
-      ingresos: this.http.get<Transaccion[]>(this.ingresosUrl),
-      gastos: this.http.get<Transaccion[]>(this.gastosUrl)
-    }).pipe(
-      map(result => {
-        // Aseguramos que cada registro tenga asignado el tipo correspondiente
-        const transaccionesIngresos: Transaccion[] = result.ingresos.map(t => ({ ...t, tipo: 'ingreso' }));
-        const transaccionesGastos: Transaccion[] = result.gastos.map(t => ({ ...t, tipo: 'gasto' }));
-        return [...transaccionesIngresos, ...transaccionesGastos];
+ saveTransaccion(transaccion: Transaccion): Observable<Transaccion> {
+  return this.http.post<Transaccion>(this.transaccionesUrl, transaccion)
+    .pipe(
+      catchError(error => {
+        console.error('Error al guardar transacción', error);
+        return throwError(() => new Error('Error al guardar transacción'));
       })
     );
+}
+
+  // Obtiene todas las transacciones
+  getTransacciones(): Observable<Transaccion[]> {
+    return this.http.get<Transaccion[]>(this.transaccionesUrl)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener transacciones', error);
+          return of([]); // Retorna un arreglo vacío en caso de error
+        })
+      );
   }
 
-  // Actualiza una transacción en el endpoint correspondiente
+  // Actualiza una transacción existente
   updateTransaccion(transaccion: Transaccion): Observable<Transaccion> {
-    if (transaccion.tipo === 'ingreso') {
-      return this.http.put<Transaccion>(`${this.ingresosUrl}/${transaccion.id}`, transaccion);
-    } else {
-      return this.http.put<Transaccion>(`${this.gastosUrl}/${transaccion.id}`, transaccion);
+    if (!transaccion.id) {
+      return throwError(() => new Error('ID de transacción no proporcionado'));
     }
+    return this.http.put<Transaccion>(`${this.transaccionesUrl}/${transaccion.id}`, transaccion)
+      .pipe(
+        catchError(error => {
+          console.error('Error al actualizar transacción', error);
+          return throwError(() => new Error('Error al actualizar transacción'));
+        })
+      );
   }
 
-  // Elimina una transacción en el endpoint correspondiente
-  deleteTransaccion(transaccion: Transaccion): Observable<void> {
-    if (transaccion.tipo === 'ingreso') {
-      return this.http.delete<void>(`${this.ingresosUrl}/${transaccion.id}`);
-    } else {
-      return this.http.delete<void>(`${this.gastosUrl}/${transaccion.id}`);
+  // Elimina una transacción
+  deleteTransaccion(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.transaccionesUrl}/${id}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error al eliminar transacción', error);
+          return throwError(() => new Error('Error al eliminar transacción'));
+        })
+      );
     }
-  }
-
-  // Elimina múltiples transacciones en paralelo
+    // Elimina múltiples transacciones en paralelo
   deleteTransacciones(transacciones: Transaccion[]): Observable<void> {
     const deleteRequests = transacciones.map(transaccion => {
       if (transaccion.tipo === 'ingreso') {
-        return this.http.delete<void>(`${this.ingresosUrl}/${transaccion.id}`);
+        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.id}`);
       } else {
-        return this.http.delete<void>(`${this.gastosUrl}/${transaccion.id}`);
+        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.id}`);
       }
     });
 

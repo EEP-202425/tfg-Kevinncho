@@ -13,6 +13,7 @@ import { HttpRequest, HttpHandler,HttpEvent } from '@angular/common/http';
       const token = localStorage.getItem('authToken'); // Obtener el token almacenado
 
       if (token) {
+        console.log("Token enviado en la petición:", token);
         const clonedReq = req.clone({
           setHeaders: { Authorization: `Bearer ${token}` } // Agregar el token en la cabecera
         });
