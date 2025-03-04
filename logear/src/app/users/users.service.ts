@@ -42,20 +42,21 @@ export class UsersService {
     })
   );
 }
-  login(usuario: { email: string; contrasena: string }): Observable<any> {
-    if(!usuario.email || !usuario.contrasena){
-      return throwError(()=> new Error('Ingrese su correo y contraseña, por favor.'));
-    }
-    return this.http.post<{ token: string }>(`${this.usersUrl}/login`, usuario).pipe(
-      tap(response => {
-        this.setToken(response.token); // Guardar el token en localStorage
-      }),
-      catchError(error => {
-        console.error('Error en el login:', error);
-        return throwError(() => new Error('Usuario o contraseña incorrectos.'));
-      })
-    );
+login(usuario: { email: string; contrasena: string }): Observable<any> {
+  if (!usuario.email || !usuario.contrasena) {
+    return throwError(() => new Error('Ingrese su correo y contraseña, por favor.'));
   }
+
+  return this.http.post(`${this.usersUrl}/login`, usuario, { responseType: 'text' }).pipe(
+    tap((token: string) => {
+      this.setToken(token.trim()); // Guardar el token eliminando espacios en blanco
+    }),
+    catchError(error => {
+      console.error('Error en el login:', error);
+      return throwError(() => new Error('Usuario o contraseña incorrectos.'));
+    })
+  );
+}
 /** ALMACENAR TOKEN */
 setToken(token: string): void {
   localStorage.setItem(this.tokenKey, token);
