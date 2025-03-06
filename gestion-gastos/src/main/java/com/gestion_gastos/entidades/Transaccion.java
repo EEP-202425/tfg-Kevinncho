@@ -30,9 +30,17 @@ public class Transaccion {
     private Long transaccionId;
 
     @Column(length = 250, nullable = false)
-    private String descripcion;
+    private String concepto;
 
-    @Column(nullable = false)
+    public String getConcepto() {
+		return concepto;
+	}
+
+	public void setConcepto(String concepto) {
+		this.concepto = concepto;
+	}
+
+	@Column(nullable = false)
     private double monto;
 
     @Column(nullable = false)
@@ -53,14 +61,6 @@ public class Transaccion {
 
     public void setTransaccionId(Long transaccionId) {
         this.transaccionId = transaccionId;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public double getMonto() {

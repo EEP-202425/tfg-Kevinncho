@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { map, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { UsersService } from '../users/users.service';
 interface Gasto {
   id?: number;
   fecha: string;
@@ -36,7 +37,7 @@ export class TransaccionesService {
   private transaccionesUrl = 'http://localhost:8080/transacciones';
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UsersService) {}
 
   // Guarda una transacción en el endpoint correspondiente según su tipo
  saveTransaccion(transaccion: Transaccion): Observable<Transaccion> {
@@ -49,16 +50,25 @@ export class TransaccionesService {
     );
 }
 
-  // Obtiene todas las transacciones
-  getTransacciones(): Observable<Transaccion[]> {
-    return this.http.get<Transaccion[]>(this.transaccionesUrl)
-      .pipe(
-        catchError(error => {
-          console.error('Error al obtener transacciones', error);
-          return of([]); // Retorna un arreglo vacío en caso de error
-        })
-      );
+getTransacciones(): Observable<any> {
+  const token = this.userService.getToken(); // Obtener el token desde UserService
+
+  if (!token) {
+    console.error('Token no encontrado');
+    return of([]); // Si no hay token, devolvemos un arreglo vacío
   }
+
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  return this.http.get<any>(this.transaccionesUrl, { headers })
+    .pipe(
+      catchError(error => {
+        console.error('Error en la solicitud:', error);
+        return throwError(() => new Error(error));
+      })
+    );
+}
+
 
   // Actualiza una transacción existente
   updateTransaccion(transaccion: Transaccion): Observable<Transaccion> {

@@ -27,7 +27,7 @@ public class TransaccionService {
     public Transaccion actualizarTransaccion(Long id, Transaccion nuevaTransaccion) {
         return transaccionRepository.findById(id).map(t -> {
             t.setMonto(nuevaTransaccion.getMonto());
-            t.setDescripcion(nuevaTransaccion.getDescripcion());
+            t.setConcepto(nuevaTransaccion.getConcepto());
             t.setFecha(nuevaTransaccion.getFecha());
             t.setTipo(nuevaTransaccion.getTipo());
             return transaccionRepository.save(t);

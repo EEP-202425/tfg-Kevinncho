@@ -34,7 +34,7 @@ public class TransaccionController {
     private JwtUtil jwtUtil;  
 
     @GetMapping
-    public List<Transaccion> obtenerTransacciones(@RequestHeader("Authorization") String token) {
+    public List<Transaccion> obtenerTransacciones(@RequestHeader("Authorization") String token,   @RequestParam(required = false) String email) {
         // Eliminar "Bearer " del token
         String tokenJWT = token.substring(7); // Eliminar el prefijo "Bearer " (7 caracteres)
         
@@ -44,6 +44,7 @@ public class TransaccionController {
         // Obtener las transacciones del usuario con el email extraído
         return transaccionService.obtenerTransaccionesPorEmail(userEmail);
     }
+
     @PostMapping
     public ResponseEntity<Transaccion> agregar(@RequestBody Transaccion transaccion) {
         return ResponseEntity.ok(transaccionService.guardarTransaccion(transaccion));
