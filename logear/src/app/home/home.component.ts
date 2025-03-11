@@ -372,9 +372,9 @@ export class HomeComponent implements OnInit, AfterViewInit{
 
     this.filteredTransacciones.forEach(transaccion => {
       const dia = new Date(transaccion.fecha).getDate();
-      if (transaccion.tipo === 'ingreso') {
+      if (transaccion.tipo === 'INGRESO') {
         ingresosPorDia[dia] = (ingresosPorDia[dia] || 0) + transaccion.monto;
-      } else if (transaccion.tipo === 'gasto') {
+      } else if (transaccion.tipo === 'GASTO') {
         gastosPorDia[dia] = (gastosPorDia[dia] || 0) + transaccion.monto;
       }
     });
