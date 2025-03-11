@@ -103,7 +103,7 @@
           <input [(ngModel)]="transaccion.monto" class="input-editar" type="number" />
         </div>
         <div *ngIf="editingTransaccionIndex !== i">
-          <span [ngClass]="{'ingreso-amount': transaccion.tipo === 'ingreso', 'gasto-amount': transaccion.tipo === 'gasto'}">
+          <span [ngClass]="{'ingreso-amount': transaccion.tipo === 'INGRESO', 'gasto-amount': transaccion.tipo === 'GASTO'}">
             {{ transaccion.monto | currency }}
           </span>
         </div>
