@@ -105,24 +105,22 @@ getTransacciones(): Observable<any> {
       );
   }
 
-  // Elimina una transacción
+  // Elimina una transacción (incluye headers para enviar el token)
   deleteTransaccion(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.transaccionesUrl}/${id}`)
+    const headers = this.getAuthHeaders();
+    return this.http.delete<void>(`${this.transaccionesUrl}/${id}`, { headers })
       .pipe(
         catchError(error => {
           console.error('Error al eliminar transacción', error);
           return throwError(() => new Error('Error al eliminar transacción'));
         })
       );
-    }
-    // Elimina múltiples transacciones en paralelo
+  }
+    // Elimina múltiples transacciones en paralelo (también incluye headers)
   deleteTransacciones(transacciones: Transaccion[]): Observable<void> {
+    const headers = this.getAuthHeaders();
     const deleteRequests = transacciones.map(transaccion => {
-      if (transaccion.tipo === 'INGRESO') {
-        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.transaccionId}`);
-      } else {
-        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.transaccionId}`);
-      }
+      return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.transaccionId}`, { headers });
     });
 
     return forkJoin(deleteRequests).pipe(

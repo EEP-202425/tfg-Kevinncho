@@ -235,8 +235,8 @@ export class HomeComponent implements OnInit, AfterViewInit{
   deleteTransaccion(transaccionIndex: number) {
     const transaccionToDelete = this.filteredTransacciones[transaccionIndex];
     if (confirm(`¿Estás seguro de que deseas eliminar la transacción con el concepto "${transaccionToDelete.concepto}"?`)) {
-      this.transaccionesService.deleteTransaccion(transaccionToDelete).subscribe(() => {
-        this.transacciones = this.transacciones.filter(t => t.id !== transaccionToDelete.id);
+      this.transaccionesService.deleteTransaccion(transaccionToDelete.transaccionId!).subscribe(() => {
+        this.transacciones = this.transacciones.filter(t => t.transaccionId! !== transaccionToDelete.transaccionId!);
         this.filterTransacciones();
       });
     }
