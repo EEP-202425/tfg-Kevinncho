@@ -19,7 +19,7 @@ interface Ingreso {
 }
 // Interfaz unificada para transacciones, se diferencia por el campo "tipo"
 export interface Transaccion {
-  id?: number;
+  transaccionId?: number;
   fecha: string;
   concepto: string;
   monto: number;
@@ -90,12 +90,13 @@ getTransacciones(): Observable<any> {
 }
 
 
-  // Actualiza una transacción existente
-  updateTransaccion(transaccion: Transaccion): Observable<Transaccion> {
-    if (!transaccion.id) {
+   // Actualiza una transacción existente (incluye headers para enviar el token)
+   updateTransaccion(transaccion: Transaccion): Observable<Transaccion> {
+    if (!transaccion.transaccionId) {
       return throwError(() => new Error('ID de transacción no proporcionado'));
     }
-    return this.http.put<Transaccion>(`${this.transaccionesUrl}/${transaccion.id}`, transaccion)
+    const headers = this.getAuthHeaders();
+    return this.http.put<Transaccion>(`${this.transaccionesUrl}/${transaccion.transaccionId}`, transaccion, { headers })
       .pipe(
         catchError(error => {
           console.error('Error al actualizar transacción', error);
@@ -118,9 +119,9 @@ getTransacciones(): Observable<any> {
   deleteTransacciones(transacciones: Transaccion[]): Observable<void> {
     const deleteRequests = transacciones.map(transaccion => {
       if (transaccion.tipo === 'INGRESO') {
-        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.id}`);
+        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.transaccionId}`);
       } else {
-        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.id}`);
+        return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.transaccionId}`);
       }
     });
 
