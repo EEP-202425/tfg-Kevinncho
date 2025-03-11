@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.gestion_gastos.entidades.Transaccion;
 import com.gestion_gastos.entidades.Usuario;
+import com.gestion_gastos.jwt.JwtUtil;
 import com.gestion_gastos.repository.TransaccionRepository;
+import com.gestion_gastos.repository.UsuarioRepository;
 
 @Service
 public class TransaccionService {
@@ -15,8 +17,23 @@ public class TransaccionService {
     @Autowired
     private TransaccionRepository transaccionRepository;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     
-    public Transaccion guardarTransaccion(Transaccion transaccion) {
+    public Transaccion guardarTransaccion(Transaccion transaccion, String tokenJWT) {
+        // Extraer el email del token
+        String userEmail = jwtUtil.extractGmail(tokenJWT);
+        
+        // Buscar el usuario en la base de datos usando el email
+        Usuario usuario = usuarioRepository.findByEmail(userEmail)
+                                          .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        // Asociar el usuario a la transacción
+        transaccion.setUsuario(usuario);
+        
+        // Guardar la transacción en la base de datos
         return transaccionRepository.save(transaccion);
     }
 

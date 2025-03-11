@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
  years: number[] = Array.from({ length: 20 }, (_, i) => new Date().getFullYear() - i);
  days: number[] = [];
  showNewTransactionForm: boolean = false;
- transactionType: 'ingreso' | 'gasto' = 'ingreso';
+ transactionType: 'INGRESO' | 'GASTO' = 'INGRESO';
  chartLine: any;
 
   constructor(public userService: UsersService,private router: Router, private http: HttpClient, private transaccionesService: TransaccionesService){
@@ -118,7 +118,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
       this.updateLineChart();
     }
     this.totalTransacciones = this.filteredTransacciones.reduce((sum, t) => {
-      return t.tipo === 'ingreso' ? sum + t.monto : sum - t.monto;
+      return t.tipo === 'INGRESO' ? sum + t.monto : sum - t.monto;
     }, 0);    this.sortByAmount();
     this.sortByDate();
   }
@@ -142,17 +142,24 @@ export class HomeComponent implements OnInit, AfterViewInit{
         fecha: formattedDate,
         concepto: this.transactionConcept.trim(),
         monto: this.transactionAmount,
-        tipo: this.transactionType  // Ahora este valor es 'ingreso' o 'gasto'
+        tipo: this.transactionType.toUpperCase() as 'INGRESO' | 'GASTO', // Ahora este valor es 'ingreso' o 'gasto'
       };
-      this.transaccionesService.saveTransaccion(newTransaction).subscribe((savedTransaccion) => {
+      console.log('Enviando transacción:', newTransaction); // Depuración: ver la transacción a enviar
+      this.transaccionesService.saveTransaccion(newTransaction).subscribe({ next: (savedTransaccion) => {
+        console.log('Transacción guardada:', savedTransaccion); // Depuración: ver respuesta exitosa
         this.transacciones.push(savedTransaccion);
         this.filterTransacciones();
         this.loadTransacciones();
         this.resetForm();
-      });
-    } else {
-      alert('Por favor, completa todos los campos correctamente.');
-    }
+      },
+      error: (err: any) => {
+        console.error('Error al guardar la transacción:', err); // Depuración: ver el error
+        alert('Error al guardar la transacción. Revisa la consola para más detalles.');
+      }
+    });
+} else {
+  alert('Por favor, completa todos los campos correctamente.');
+}
   }
 
   loadTransacciones() {

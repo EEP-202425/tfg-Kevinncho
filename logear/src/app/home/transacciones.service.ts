@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient,HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
 import { map, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export interface Transaccion {
   fecha: string;
   concepto: string;
   monto: number;
-  tipo: 'ingreso' | 'gasto';
+  tipo: 'INGRESO' | 'GASTO';
 }
 @Injectable({
   providedIn: 'root'
@@ -39,16 +39,36 @@ export class TransaccionesService {
 
   constructor(private http: HttpClient, private userService: UsersService) {}
 
-  // Guarda una transacción en el endpoint correspondiente según su tipo
- saveTransaccion(transaccion: Transaccion): Observable<Transaccion> {
-  return this.http.post<Transaccion>(this.transaccionesUrl, transaccion)
-    .pipe(
-      catchError(error => {
-        console.error('Error al guardar transacción', error);
-        return throwError(() => new Error('Error al guardar transacción'));
-      })
-    );
-}
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+
+    if (!token) {
+      console.error('Token no encontrado');
+      throw new Error('Token no encontrado');
+    }
+
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
+  saveTransaccion(transaccion: Transaccion): Observable<Transaccion> {
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado')); // Si no hay token, devolvemos un error
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+
+    return this.http.post<Transaccion>(this.transaccionesUrl, transaccion, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error al guardar transacción', error);
+          return throwError(() => new Error('Error al guardar transacción'));
+        })
+      );
+  }
 
 getTransacciones(): Observable<any> {
   const token = this.userService.getToken(); // Obtener el token desde UserService
@@ -97,7 +117,7 @@ getTransacciones(): Observable<any> {
     // Elimina múltiples transacciones en paralelo
   deleteTransacciones(transacciones: Transaccion[]): Observable<void> {
     const deleteRequests = transacciones.map(transaccion => {
-      if (transaccion.tipo === 'ingreso') {
+      if (transaccion.tipo === 'INGRESO') {
         return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.id}`);
       } else {
         return this.http.delete<void>(`${this.transaccionesUrl}/${transaccion.id}`);
