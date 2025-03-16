@@ -11,8 +11,14 @@ public class Gasto {
     private Long idGasto;
 	
 	@Column(length = 250,nullable = false)
-	private String descripcion;
+	private String concepto;
 	
+	public String getConcepto() {
+		return concepto;
+	}
+	public void setConcepto(String concepto) {
+		this.concepto = concepto;
+	}
 	@Column(nullable = false)
     private double monto;
 	
@@ -34,12 +40,6 @@ public class Gasto {
 	}
 	public void setIdGasto(Long idGasto) {
 		this.idGasto = idGasto;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 	public double getMonto() {
 		return monto;

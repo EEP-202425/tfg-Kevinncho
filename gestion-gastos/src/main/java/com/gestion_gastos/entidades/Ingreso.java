@@ -17,7 +17,7 @@ public class Ingreso {
 			this.idIngreso = idIngreso;
 		}
 		@Column(length = 250,nullable = false)
-		private String descripcion;
+		private String concepto;
 		
 		@Column(nullable = false)
 	    private double monto;
@@ -29,11 +29,12 @@ public class Ingreso {
 		@JoinColumn(name = "transaccionId", nullable = false)
 		private Transaccion transaccion;
 
-		public String getDescripcion() {
-			return descripcion;
+		
+		public String getConcepto() {
+			return concepto;
 		}
-		public void setDescripcion(String descripcion) {
-			this.descripcion = descripcion;
+		public void setConcepto(String concepto) {
+			this.concepto = concepto;
 		}
 		public double getMonto() {
 			return monto;

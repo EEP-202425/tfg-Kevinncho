@@ -84,18 +84,14 @@ export class HomeComponent implements OnInit, AfterViewInit{
   ngOnInit() {
     this.updateDays();
     this.loadTransacciones();
-    this.getUserLogged();
+   
 
   }
   logout(): void{
     this.userService.logout();
 
   }
-  getUserLogged(){
-    this.userService.getUsers().subscribe((user)=>{
-      console.log(user);
-    });
-  }
+
   updateDays() {
     const daysInMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
     this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);

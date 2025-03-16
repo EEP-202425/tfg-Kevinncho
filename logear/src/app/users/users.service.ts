@@ -60,7 +60,7 @@ login(usuario: { email: string; contrasena: string }): Observable<any> {
 /** ALMACENAR TOKEN */
 setToken(token: string): void {
   localStorage.setItem(this.tokenKey, token);
-  console.log("Token guardado en localStorage:", token);
+
 }
 
 /** OBTENER TOKEN */
@@ -87,19 +87,5 @@ logout(): void {
   localStorage.removeItem(this.tokenKey);
   this.router.navigate(['/login']);
 }
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl).pipe( // Usar la URL correcta
-      catchError(error => {
-        console.error('Error en la solicitud de usuarios:', error);
-        return of([]); // Devuelve un array vacío en caso de error
-      }),
-      map(users => {
-        if (users && users.length > 0) {
-          return users;
-        } else {
-          throw new Error('No se encontraron usuarios');
-        }
-      })
-    );
-  }
+
 }
