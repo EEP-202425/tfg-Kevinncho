@@ -59,16 +59,23 @@ public class GastoController {
         return ResponseEntity.ok(gastoGuardado);
     }
 
-    // Endpoint para actualizar un gasto
     @PutMapping("/{id}")
-    public ResponseEntity<Gasto> editarGasto(@PathVariable Long id, @RequestBody Gasto gasto) {
-        return ResponseEntity.ok(gastoService.actualizarGasto(id, gasto));
+    public ResponseEntity<Gasto> actualizarGastoYTransaccion(@PathVariable Long id, @RequestBody Gasto nuevoGasto) {
+        Gasto gastoActualizado = gastoService.actualizarGastoYTransaccion(id, nuevoGasto);
+        if (gastoActualizado != null) {
+            return ResponseEntity.ok(gastoActualizado);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    // Endpoint para eliminar un gasto
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarGasto(@PathVariable Long id) {
-        gastoService.eliminarGasto(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> eliminarGastoYTransaccion(@PathVariable Long id) {
+        boolean eliminado = gastoService.eliminarGastoYTransaccion(id);
+        
+        if (eliminado) {
+            return ResponseEntity.ok("Gasto y transacción eliminados correctamente.");
+        }
+        return ResponseEntity.notFound().build();
     }
 }

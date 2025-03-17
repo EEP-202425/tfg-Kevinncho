@@ -8,6 +8,8 @@ import com.gestion_gastos.repository.GastoRepository;
 import com.gestion_gastos.repository.TransaccionRepository;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,20 +47,50 @@ public class GastoService {
         return gastoRepository.save(gasto);
     }
 
-    // Actualizar un gasto existente
-    public Gasto actualizarGasto(Long id, Gasto gastoActualizado) {
-        return gastoRepository.findById(id).map(gasto -> {
-            gasto.setConcepto(gastoActualizado.getConcepto());
-            gasto.setMonto(gastoActualizado.getMonto());
-            gasto.setFecha(gastoActualizado.getFecha());
-            // Aquí puedes actualizar otros campos si es necesario
-            return gastoRepository.save(gasto);
-        }).orElseThrow(() -> new RuntimeException("Gasto no encontrado con ID: " + id));
-    }
+    public Gasto actualizarGastoYTransaccion(Long id, Gasto nuevoGasto) {
+        Optional<Gasto> gastoExistente = gastoRepository.findById(id);
 
-    // Eliminar un gasto
-    public void eliminarGasto(Long id) {
-        gastoRepository.deleteById(id);
+        if (gastoExistente.isPresent()) {
+            Gasto gasto = gastoExistente.get();
+
+            // Actualizar los datos del gasto
+            gasto.setConcepto(nuevoGasto.getConcepto());
+            gasto.setMonto(nuevoGasto.getMonto());
+            gasto.setFecha(nuevoGasto.getFecha());
+
+            // Obtener la transacción asociada
+            Transaccion transaccion = gasto.getTransaccion();
+            if (transaccion != null) {
+                transaccion.setConcepto(nuevoGasto.getConcepto()); // Sincronizar concepto
+                transaccion.setMonto(nuevoGasto.getMonto()); // Sincronizar monto
+                transaccion.setFecha(nuevoGasto.getFecha()); // Sincronizar fecha
+                transaccionRepository.save(transaccion); // Guardar la transacción actualizada
+            }
+
+            return gastoRepository.save(gasto); // Guardar el gasto actualizado
+        }
+        return null; // Retorna null si el gasto no existe
+    }
+    public boolean eliminarGastoYTransaccion(Long id) {
+        Optional<Gasto> gastoExistente = gastoRepository.findById(id);
+
+        if (gastoExistente.isPresent()) {
+            Gasto gasto = gastoExistente.get();
+            
+            // Obtener la transacción asociada
+            Transaccion transaccion = gasto.getTransaccion();
+
+            // Primero, eliminar el gasto
+            gastoRepository.delete(gasto);
+
+            // Luego, eliminar la transacción si existe
+            if (transaccion != null) {
+                transaccionRepository.delete(transaccion);
+            }
+
+            return true;
+        }
+        return false;
     }
 }
 
