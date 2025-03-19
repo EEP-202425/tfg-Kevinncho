@@ -73,21 +73,18 @@ public class GastoService {
     }
     public boolean eliminarGastoYTransaccion(Long id) {
         Optional<Gasto> gastoExistente = gastoRepository.findById(id);
-
         if (gastoExistente.isPresent()) {
             Gasto gasto = gastoExistente.get();
             
-            // Obtener la transacción asociada
             Transaccion transaccion = gasto.getTransaccion();
-
-            // Primero, eliminar el gasto
+            
+            // Eliminar el gasto
             gastoRepository.delete(gasto);
-
-            // Luego, eliminar la transacción si existe
+            
             if (transaccion != null) {
                 transaccionRepository.delete(transaccion);
             }
-
+            
             return true;
         }
         return false;

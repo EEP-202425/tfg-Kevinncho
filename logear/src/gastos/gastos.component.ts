@@ -190,13 +190,25 @@ editGasto(gastosIndex: number) {
   this.editingGastoIndex = gastosIndex;
 }
 deleteGasto(gastosIndex: number) {
-  const gastosDelete = this.filteredGastos[gastosIndex];
+  const gastoToDelete = this.filteredGastos[gastosIndex];
+  console.log('Gasto a eliminar:', gastoToDelete);
 
-  if (confirm(`¿Estás seguro de que deseas eliminar el ingreso con el concepto "${gastosDelete.concepto}"?`)) {
-    this.gastosService.deleteGasto(gastosDelete.id).subscribe(() => {
-      // Remover ingreso de la lista local después de eliminarlo del servidor
-      this.gastos = this.gastos.filter((gastos) => gastos.id !== gastosDelete.id);
-      this.filterGastos(); // Actualizar la lista filtrada
+  if (!gastoToDelete.idGasto) {
+    console.error('ID de gasto no definido en el objeto:', gastoToDelete);
+    alert('Error: No se puede eliminar un gasto sin ID.');
+    return;
+  }
+
+  if (confirm(`¿Estás seguro de que deseas eliminar el gasto con el concepto "${gastoToDelete.concepto}"?`)) {
+    this.gastosService.deleteGasto(gastoToDelete.idGasto).subscribe({
+      next: () => {
+        this.gastos = this.gastos.filter(g => g.idGasto !== gastoToDelete.idGasto);
+        this.filterGastos();
+      },
+      error: (err) => {
+        console.error('Error al eliminar gasto:', err);
+        alert('Ocurrió un error al eliminar el gasto.');
+      }
     });
   }
 }
@@ -206,7 +218,7 @@ deleteSelectedGastos() {
     return;
   }
 
-  const selectedIds = this.selectedGastos.map((index) => this.filteredGastos[index]?.id);
+  const selectedIds = this.selectedGastos.map((index) => this.filteredGastos[index]?.idGasto);
 
   if (confirm('¿Estás seguro de que deseas eliminar los ingresos seleccionados?')) {
     this.gastosService.deleteGastos(selectedIds).subscribe({

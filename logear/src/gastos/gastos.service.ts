@@ -80,17 +80,55 @@ export class GastosService {
           return throwError(() => new Error('Error al actualizar gasto'));
         })
       );
-  }    deleteGasto(id: number): Observable<void> {
-      return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
-deleteGastos(ids: number[]): Observable<void> {
-    // Crear una solicitud DELETE para cada ID
-    const deleteRequests = ids.map(id => this.http.delete<void>(`${this.apiUrl}/${id}`));
+  }
 
-    // Ejecutar todas las solicitudes en paralelo
+
+  deleteGasto(idGasto: number): Observable<void> {
+    if (!idGasto) {
+      console.error('ID de gasto no proporcionado');
+      return throwError(() => new Error('ID de gasto no proporcionado'));
+    }
+
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Especificamos responseType: 'text' para que Angular no intente parsear un JSON vacío.
+    return this.http.delete(`${this.apiUrl}/${idGasto}`, { headers, responseType: 'text' })
+      .pipe(
+        map(() => {}), // Convertir la respuesta (texto) en void
+        catchError(error => {
+          console.error('Error al eliminar gasto', error);
+          return throwError(() => new Error('Error al eliminar gasto'));
+        })
+      );
+  }
+  deleteGastos(ids: number[]): Observable<void> {
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Crear una solicitud DELETE para cada ID, especificando responseType: 'text'
+    const deleteRequests = ids.map(id =>
+      this.http.delete(`${this.apiUrl}/${id}`, { headers, responseType: 'text' })
+    );
+
+    // Ejecutar todas las solicitudes en paralelo y mapear la respuesta a void
     return forkJoin(deleteRequests).pipe(
-      // Cuando todas las solicitudes terminen, emitir un valor vacío
-      map(() => {})
+      map(() => {}),
+      catchError(error => {
+        console.error('Error al eliminar gastos', error);
+        return throwError(() => new Error('Error al eliminar gastos'));
+      })
     );
   }
 
