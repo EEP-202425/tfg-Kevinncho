@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs';
+import { UsersService } from '../users/users.service';
+import { catchError,throwError } from 'rxjs';
 
 interface Ingresos{
-  id?: number;
+  idIngreso?: number;
   fecha: string;
   concepto: string;
   monto: number;
@@ -14,20 +16,35 @@ interface Ingresos{
   providedIn: 'root'
 })
 export class IngresosService {
-  private apiUrl = 'http://localhost:3000/ingresos'; // Ruta para los ingresos
+  private apiUrl = 'http://localhost:8080/ingresos'; // Ruta para los ingresos
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userService: UsersService) { }
 
   saveIncome(income: Ingresos): Observable<Ingresos> {
     return this.http.post<Ingresos>(this.apiUrl, income);
   }
-   // Método opcional para obtener ingresos
-   getIncomes(): Observable<Ingresos[]> {
-    return this.http.get<Ingresos[]>(this.apiUrl);
+  getIncomes(): Observable<Ingresos[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<Ingresos[]>(this.apiUrl, { headers })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error en la solicitud de ingresos:', error);
+          return throwError(() => new Error('Error en la solicitud de ingresos'));
+        })
+      );
+  }
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.userService.getToken();
+    console.log("Token obtenido:", token);
+    if (!token) {
+      console.error('Token no encontrado');
+      throw new Error('Token no encontrado');
+    }
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
   updateIncome(income: Ingresos): Observable<Ingresos> {
     // Asegúrate de que `income` tenga un `id` válido para usar en la URL
-    return this.http.put<Ingresos>(`${this.apiUrl}/${income.id}`, income);
+    return this.http.put<Ingresos>(`${this.apiUrl}/${income.idIngreso}`, income);
   }
   deleteIncome(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
