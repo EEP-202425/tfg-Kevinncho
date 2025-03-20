@@ -45,6 +45,12 @@ public class Ingreso {
 		public LocalDate getFecha() {
 			return fecha;
 		}
+		public Transaccion getTransaccion() {
+			return transaccion;
+		}
+		public void setTransaccion(Transaccion transaccion) {
+			this.transaccion = transaccion;
+		}
 		public void setFecha(LocalDate fecha) {
 			this.fecha = fecha;
 		}
