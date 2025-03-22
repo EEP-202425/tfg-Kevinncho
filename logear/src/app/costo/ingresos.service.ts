@@ -21,7 +21,22 @@ export class IngresosService {
   constructor(private http: HttpClient, private userService: UsersService) { }
 
   saveIncome(income: Ingresos): Observable<Ingresos> {
-    return this.http.post<Ingresos>(this.apiUrl, income);
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado')); // Si no hay token, devolvemos un error
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<Ingresos>(this.apiUrl, income, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error al guardar ingreso', error);
+          return throwError(() => new Error('Error al guardar ingreso'));
+        })
+      );
   }
   getIncomes(): Observable<Ingresos[]> {
     const headers = this.getAuthHeaders();
@@ -43,32 +58,75 @@ export class IngresosService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
   updateIncome(income: Ingresos): Observable<Ingresos> {
-    // Asegúrate de que `income` tenga un `id` válido para usar en la URL
-    return this.http.put<Ingresos>(`${this.apiUrl}/${income.idIngreso}`, income);
-  }
-  deleteIncome(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
-  deleteMultipleIncomes(ids: number[]): Observable<void> {
-    // Realiza múltiples peticiones DELETE para cada ID
-    const requests = ids.map(id => this.http.delete<void>(`${this.apiUrl}/${id}`));
-    return new Observable(observer => {
-      Promise.all(requests)
-        .then(() => {
-          observer.next();
-          observer.complete();
-        })
-        .catch(error => observer.error(error));
-    });
-  }
-  deleteIncomes(ids: number[]): Observable<void> {
-    // Crear una solicitud DELETE para cada ID
-    const deleteRequests = ids.map(id => this.http.delete<void>(`${this.apiUrl}/${id}`));
+    if (!income.idIngreso) {
+      console.error('ID de ingreso no proporcionado');
+      return throwError(() => new Error('ID de ingreso no proporcionado'));
+    }
 
-    // Ejecutar todas las solicitudes en paralelo
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado')); // Si no hay token, devolvemos un error
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put<Ingresos>(`${this.apiUrl}/${income.idIngreso}`, income, { headers })
+      .pipe(
+        catchError(error => {
+          console.error('Error al actualizar ingreso', error);
+          return throwError(() => new Error('Error al actualizar ingreso'));
+        })
+      );
+  }
+  deleteIncome(idIngreso: number): Observable<void> {
+    if (!idIngreso) {
+      console.error('ID de ingreso no proporcionado');
+      return throwError(() => new Error('ID de ingreso no proporcionado'));
+    }
+
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Especificamos responseType: 'text' para que Angular no intente parsear un JSON vacío.
+    return this.http.delete(`${this.apiUrl}/${idIngreso}`, { headers, responseType: 'text' })
+      .pipe(
+        map(() => {}), // Convertir la respuesta (texto) en void
+        catchError(error => {
+          console.error('Error al eliminar ingreso', error);
+          return throwError(() => new Error('Error al eliminar ingreso'));
+        })
+      );
+  }
+
+  deleteIncomes(ids: number[]): Observable<void> {
+    const token = this.userService.getToken(); // Obtener el token desde UserService
+
+    if (!token) {
+      console.error('Token no encontrado');
+      return throwError(() => new Error('Token no encontrado'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Crear una solicitud DELETE para cada ID, especificando responseType: 'text'
+    const deleteRequests = ids.map(id =>
+      this.http.delete(`${this.apiUrl}/${id}`, { headers, responseType: 'text' })
+    );
+
+    // Ejecutar todas las solicitudes en paralelo y mapear la respuesta a void
     return forkJoin(deleteRequests).pipe(
-      // Cuando todas las solicitudes terminen, emitir un valor vacío
-      map(() => {})
+      map(() => {}),
+      catchError(error => {
+        console.error('Error al eliminar ingresos', error);
+        return throwError(() => new Error('Error al eliminar ingresos'));
+      })
     );
   }
 

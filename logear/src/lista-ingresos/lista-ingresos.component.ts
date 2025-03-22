@@ -215,9 +215,9 @@ toggleNewIncomeForm() {
     const incomeToDelete = this.filteredIncomes[incomeIndex];
 
     if (confirm(`¿Estás seguro de que deseas eliminar el ingreso con el concepto "${incomeToDelete.concepto}"?`)) {
-      this.ingresosService.deleteIncome(incomeToDelete.id).subscribe(() => {
+      this.ingresosService.deleteIncome(incomeToDelete.idIngreso).subscribe(() => {
         // Remover ingreso de la lista local después de eliminarlo del servidor
-        this.incomes = this.incomes.filter((income) => income.id !== incomeToDelete.id);
+        this.incomes = this.incomes.filter((income) => income.idIngreso !== incomeToDelete.idIngreso);
         this.filterIncomes(); // Actualizar la lista filtrada
       });
     }
@@ -236,7 +236,7 @@ toggleNewIncomeForm() {
       return;
     }
 
-    const selectedIds = this.selectedIncomes.map((index) => this.filteredIncomes[index]?.id);
+    const selectedIds = this.selectedIncomes.map((index) => this.filteredIncomes[index]?.idIngreso);
 
     if (confirm('¿Estás seguro de que deseas eliminar los ingresos seleccionados?')) {
       this.ingresosService.deleteIncomes(selectedIds).subscribe({
