@@ -13,5 +13,6 @@ public interface TransaccionRepository extends JpaRepository<Transaccion, Long> 
     
  // Método para buscar transacciones por el email del usuario
     List<Transaccion> findByUsuarioEmail(String email);
+  
     
 }

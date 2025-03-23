@@ -57,7 +57,7 @@ public class TransaccionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Transaccion> editar(@PathVariable Long id, @RequestBody Transaccion transaccion) {
-        return ResponseEntity.ok(transaccionService.actualizarTransaccion(id, transaccion));
+        return ResponseEntity.ok(transaccionService.actualizarTransaccionYTipo(id, transaccion));
     }
 
     @DeleteMapping("/{id}")

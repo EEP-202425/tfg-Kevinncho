@@ -40,7 +40,6 @@ export class GastosService {
   }
   private getAuthHeaders(): HttpHeaders {
     const token = this.userService.getToken();
-    console.log("Token obtenido:", token);
     if (!token) {
       console.error('Token no encontrado');
       throw new Error('Token no encontrado');
