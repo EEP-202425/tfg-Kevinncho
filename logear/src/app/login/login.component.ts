@@ -16,6 +16,7 @@ export class LoginComponent {
   email: string='';
   contrasena: string='';
   loginForm!: FormGroup;
+  showPassword = false;
   constructor(private userService: UsersService, private router: Router, private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -44,5 +45,9 @@ export class LoginComponent {
         alert(err.message); // Muestra el mensaje de error en un alert
       },
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

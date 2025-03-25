@@ -18,6 +18,9 @@ export class RegisterComponent {
     errorcontrasena: boolean=false;
     registreForm!: FormGroup;
 
+    showPassword = false;
+  showConfirmPassword = false;
+
     constructor(public userService: UsersService, private router: Router, private fb: FormBuilder) {
       this.registreForm= this.fb.group({
         email: ['', [Validators.required, Validators.email]],
@@ -55,5 +58,12 @@ export class RegisterComponent {
         } // Muestra el error en un alert
 
       });
+    }
+    togglePasswordVisibility(field: string): void {
+      if (field === 'password') {
+        this.showPassword = !this.showPassword;
+      } else if (field === 'confirmPassword') {
+        this.showConfirmPassword = !this.showConfirmPassword;
+      }
     }
   }

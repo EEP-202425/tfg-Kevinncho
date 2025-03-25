@@ -82,7 +82,10 @@ input {
   color: #fff;
   width: 100%;
 }
-
+.input-password{
+  width: 90%;
+  margin-bottom: 20px; /* Ajusta el valor según necesites */
+}
 button {
   padding: 10px;
   border: none;
@@ -119,4 +122,19 @@ button {
   width: 100%;
   height: auto;
 
+}
+
+.input-icon-container{
+  position: relative;
+}
+/* Posiciona el icono a la derecha y centrado verticalmente */
+.input-icon-container .ojo-password {
+  position: absolute;
+
+  top:30%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 15px;
+  color: #dedede;
+  transition: transform 0.2s, color 0.2s;
 }

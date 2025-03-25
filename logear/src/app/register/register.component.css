@@ -82,6 +82,10 @@ input {
   color: #fff;
   width: 100%;
 }
+.input-password{
+  width: 90%;
+  margin-bottom: 20px; /* Ajusta el valor según necesites */
+}
 
 button {
   padding: 10px;
@@ -114,3 +118,41 @@ color:#aaa;
 .enlace_registrar:hover{
   color: #fff;
 }
+.ojo-password{
+  cursor: pointer;
+  color: #dedede;
+  font-size: 15px;
+  transition: transform 0.2s, color 0.2s;
+}
+.ojo-password:hover{
+  color: #fbfbfb; /* Cambia el color al pasar el mouse */
+
+}
+.input-icon-container {
+  position: relative;
+}
+
+
+
+
+/* Posiciona el icono a la derecha y centrado verticalmente */
+.input-icon-container .ojo-password {
+  position: absolute;
+
+  top:30%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 15px;
+  color: #dedede;
+  transition: transform 0.2s, color 0.2s;
+}
+.confirm-password{
+  margin: -10px 0px 0px 0px;
+}
+
+
+
+
+
+
+

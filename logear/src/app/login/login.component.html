@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="container">
   <div class="left-panel">
     <div class="logo">HÁBITO DE ORO</div>
@@ -25,14 +25,19 @@
           El email debe tener un formato válido.
         </div>
       </div>
-      <div class="password-group">
+      <div class="password-group input-icon-container">
         <input
-        type="password"
-        placeholder="Contraseña"
-        formControlName="contrasena"
-        required
-      />
-        <button type="button">👁</button>
+          class="input-password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Contraseña"
+          formControlName="contrasena"
+          required
+        />
+        <!-- Icono que alterna la visibilidad de la contraseña -->
+        <i class="fa-solid ojo-password"
+           [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+           (click)="togglePasswordVisibility()"
+           style="cursor: pointer;"></i>
       </div>
       <button type="submit" class="create-btn" [disabled]="loginForm.invalid">Iniciar Sesión</button>
     </form>
