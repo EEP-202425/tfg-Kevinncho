@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container">
+  <div class="left-panel">
+    <div class="logo">HÁBITO DE ORO</div>
+    <div class="back-link"><a href="#">Organiza tus gastos, construye tus sueños</a></div>
+    <div class="image">
+      <img src="icons/img5.jpg" alt="Desert dunes">
+    </div>
+  </div>
+  <div class="right-panel">
+    <h1>LOGEAR</h1>
+    <p>¿No tienes una cuenta? <a [routerLink]="['/register']" class="enlace_registrar">Registrate</a></p>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <input
+        type="email"
+        placeholder="Email"
+        formControlName="email"
+        required
+      />
+      <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
+        <div *ngIf="emailControl?.errors?.['required']">
+          El email es requerido.
+        </div>
+        <div *ngIf="emailControl?.errors?.['email']">
+          El email debe tener un formato válido.
+        </div>
+      </div>
+      <div class="password-group input-icon-container">
+        <input
+          class="input-password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Contraseña"
+          formControlName="contrasena"
+          required
+        />
+        <!-- Icono que alterna la visibilidad de la contraseña -->
+        <i class="fa-solid ojo-password"
+           [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+           (click)="togglePasswordVisibility()"
+           style="cursor: pointer;"></i>
+      </div>
+      <button type="submit" class="create-btn" [disabled]="loginForm.invalid">Iniciar Sesión</button>
+    </form>
+    <div class="divider">Registrate con</div>
+    <div class="social-buttons">
+      <button class="google-btn">Google</button>
+      <button class="apple-btn">Apple</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="container">
+  <div class="left-panel">
+    <div class="logo">HÁBITO DE ORO</div>
+    <div class="back-link"><a href="#">Ahorrar hoy es invertir en tu futuro</a></div>
+    <div class="image">
+      <img src="icons/img6.jpg" alt="Desert dunes">
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <h1>CREAR CUENTA</h1>
+    <form [formGroup]="registreForm" class="custom-form" (ngSubmit)="registrar()">
+      <input type="email" formControlName="email" name="email" placeholder="Email" required />
+      <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
+        <div *ngIf="emailControl?.errors?.['required']">El Email es requerido.</div>
+        <div *ngIf="emailControl?.errors?.['email']">El email debe tener un formato válido.</div>
+      </div>
+
+      <div class="password-group">
+        <div class="input-icon-container">
+          <input class="input-password" [type]="showPassword ? 'text' : 'password'" formControlName="contrasena" name="password" placeholder="Contraseña" required />
+          <i class="fa-solid ojo-password" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('password')"></i>
+        </div>
+      </div>
+      <div *ngIf="getcontrasena?.invalid && (getcontrasena?.dirty || getcontrasena?.touched)">
+        <div *ngIf="getcontrasena?.errors?.['required']">La contraseña es requerida.</div>
+        <div *ngIf="getcontrasena?.errors?.['pattern']">La contraseña debe tener un formato válido.</div>
+      </div>
+
+      <div class="input-icon-container">
+        <input class="input-password confirm-password" [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmcontrasena" name="confirmPassword" placeholder="Confirmar Contraseña" required />
+        <i class="fa-solid ojo-password" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility('confirmPassword')"></i>
+      </div>
+      <div *ngIf="getconfirmcontrasena?.invalid && (getconfirmcontrasena?.dirty || getconfirmcontrasena?.touched)">
+        <div *ngIf="getconfirmcontrasena?.errors?.['required']">Es necesario confirmar la contraseña.</div>
+        <div *ngIf="getconfirmcontrasena?.errors?.['mustMatch']">Las contraseñas no coinciden.</div>
+      </div>
+
+      <button type="submit" class="create-btn">Registrar</button>
+    </form>
+
+    <div class="divider">
+      <a class="enlace_registrar" [routerLink]="['/login']">Iniciar Sesión</a>
+    </div>
+  </div>
+</div>
