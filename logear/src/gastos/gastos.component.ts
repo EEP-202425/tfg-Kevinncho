@@ -350,7 +350,7 @@ exportToExcel() {
         responsive: true,
         scales: {
           x: { title: { display: true, text: 'Días del mes' } },
-          y: { title: { display: true, text: 'Ingresos ($)' } }
+          y: { title: { display: true, text: 'Gastos ($)' } }
         }
       }
     });
