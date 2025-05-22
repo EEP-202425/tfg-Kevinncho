@@ -9,7 +9,7 @@
   </div>
   <div class="right-panel">
     <h1>LOGEAR</h1>
-    <p>¿No tienes una cuenta? <a [routerLink]="['/register']" class="enlace_registrar">Registrate</a></p>
+    <p>¿No tienes una cuenta? <a [routerLink]="['/register']" class="enlace_registrar">Regístrate</a></p>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <input
         type="email"
@@ -41,6 +41,5 @@
       </div>
       <button type="submit" class="create-btn" [disabled]="loginForm.invalid">Iniciar Sesión</button>
     </form>
-    <div class="divider">Registrate con</div>
   </div>
 </div>
